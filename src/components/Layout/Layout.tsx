@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import Navbar from '../Header/Navbar';
 import Announcement from '../Header/Announcement';
+import Footer from '../Footer/Footer';
 
 interface Props {
   children?: ReactNode;
@@ -14,7 +15,7 @@ const Layout: React.FC<Props> = (props) => {
         <Navbar />
       </header>
       <main className="w-full min-h-screen">{props.children}</main>
-      <footer></footer>
+      <Footer />
     </div>
   );
 };
