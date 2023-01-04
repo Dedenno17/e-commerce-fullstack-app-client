@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import HeroCarraousel from '../src/components/Home/HeroCarraousel';
 
 export default function Home() {
   return (
@@ -11,7 +12,7 @@ export default function Home() {
       </Head>
 
       <main>
-        <h1 className="text-5xl text-primaryBlue font-lato">Hello Nextjs</h1>
+        <HeroCarraousel />
       </main>
     </>
   );

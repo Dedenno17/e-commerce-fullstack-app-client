@@ -85,7 +85,7 @@ const Footer: React.FC = () => {
         </div>
       </div>
 
-      <div className="w-full p-3 flex bg-[#e7e4f8]">
+      <div className="w-full p-3 flex bg-primaryPantonePurple">
         <div className="w-[55%] m-auto flex items-center justify-between">
           <span className="text-xs font-lato text-[#999]">
             &copy; Hekto. All Right Reserved.

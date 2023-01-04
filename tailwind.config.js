@@ -15,7 +15,7 @@ module.exports = {
         primaryNavyBlue: '#151875',
         primaryPurple: '#7E33E0',
         primarySkyBlue: '#F2F5FF',
-        primaryPantonePurple: '#C7BCD9',
+        primaryPantonePurple: '#e7e4f8',
         secondaryNavyBlue: '#2A3BA8',
         secondaryBlue: '#151875',
         secondaryPurple: '#9F64B4',
