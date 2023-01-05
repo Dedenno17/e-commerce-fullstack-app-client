@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { A11y, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -7,6 +7,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/a11y';
 import 'swiper/css/autoplay';
 import { heroCarrouselData, HeroData } from '../../data/heroData';
+import Image from 'next/image';
 
 const HeroCarraousel: React.FC = () => {
   const [pageActive, setPageActive] = useState<number>(0);
@@ -38,11 +39,15 @@ const HeroCarraousel: React.FC = () => {
               className="w-full px-[7rem] h-full flex items-stretch mx-auto "
             >
               <div className="w-[20%] flex overflow-hidden">
-                <img
-                  src="/hanging-lamp.png"
-                  alt="lamp picture"
-                  className="w-[80%] h-[50%] mx-auto -translate-y-[2.5rem]"
-                />
+                <div className="w-[80%] h-[50%] mx-auto -translate-y-[2.5rem] relative">
+                  <Image
+                    src="/hanging-lamp.png"
+                    alt="lamp picture"
+                    fill
+                    sizes="true"
+                    priority
+                  />
+                </div>
               </div>
               <div className="w-[40%] flex justify-center flex-col gap-3 font-josefin px-2">
                 <span className="text-primaryPink text-xs">{item.slogan}</span>
@@ -76,12 +81,17 @@ const HeroCarraousel: React.FC = () => {
                       : 'bg-primaryPurple'
                   }`}
                 />
-                <img
-                  src={item.img}
-                  alt={item.title}
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%]"
-                  loading="lazy"
-                />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[50%]">
+                  <div className="w-full h-full relative">
+                    <Image
+                      src={item.img}
+                      alt={item.title}
+                      fill
+                      sizes="true"
+                      priority
+                    />
+                  </div>
+                </div>
               </div>
             </SwiperSlide>
           ))}
