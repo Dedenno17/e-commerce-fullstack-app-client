@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { A11y, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { productsData, Product } from '../../data/productsData';
+import { Product } from '../../data/productsData';
 
 import 'swiper/css';
 import 'swiper/css/autoplay';
@@ -11,7 +11,11 @@ import { BsCart } from 'react-icons/bs';
 import { MdFavoriteBorder } from 'react-icons/md';
 import { BiSearchAlt } from 'react-icons/bi';
 
-const FeaturedProducts: React.FC = () => {
+interface Props {
+  productsData: Product[];
+}
+
+const FeaturedProducts: React.FC<Props> = ({ productsData }) => {
   const [pageActive, setPageActive] = useState<number>(0);
 
   const changePageActive = () => {
@@ -71,7 +75,7 @@ const FeaturedProducts: React.FC = () => {
                 </div>
 
                 {/* DESCRIPTION */}
-                <div className="w-full h-[35%] p-2 flex flex-col items-center justify-between transition duration-700 group-hover:bg-primaryPurple">
+                <div className="w-full h-[35%] p-2 flex flex-col items-center justify-between transition duration-700 group-hover:bg-primaryPurple pointer-events-none">
                   <h2 className="text-sm text-primaryPink font-bold font-lato transition duration-700 group-hover:text-white">
                     {item.title}
                   </h2>
