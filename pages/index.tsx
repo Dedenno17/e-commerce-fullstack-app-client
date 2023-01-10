@@ -2,7 +2,9 @@ import Head from 'next/head';
 import FeaturedProducts from '../src/components/Home/FeaturedProducts';
 import HeroCarraousel from '../src/components/Home/HeroCarraousel';
 import LeatestProducts from '../src/components/Home/LeatestProducts';
+import ShopexOffer from '../src/components/Home/ShopexOffer';
 import { productsData } from '../src/data/productsData';
+import { shopexOffers } from '../src/data/shopexOffer';
 
 export default function Home() {
   return (
@@ -19,6 +21,7 @@ export default function Home() {
         <section className="w-full min-h-screen p-10 flex flex-col gap-6 items-center">
           <FeaturedProducts productsData={productsData} />
           <LeatestProducts productsData={productsData} />
+          <ShopexOffer shopexOfferData={shopexOffers} />
         </section>
       </main>
     </>

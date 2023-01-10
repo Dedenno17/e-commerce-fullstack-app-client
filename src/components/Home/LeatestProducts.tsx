@@ -94,7 +94,7 @@ const LatestProducts: React.FC<Props> = ({ productsData }) => {
           filteredProducts.slice(0, 6).map((item: Product) => (
             <div key={item.id} className="w-full flex flex-col ">
               {/* image */}
-              <div className="w-full h-48 flex  bg-primarySkyBlue">
+              <div className="w-full h-52 flex  bg-primarySkyBlue">
                 <div className="w-[70%] h-[80%] m-auto relative">
                   <Image
                     src={item.img}

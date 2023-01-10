@@ -48,7 +48,7 @@ const FeaturedProducts: React.FC<Props> = ({ productsData }) => {
           .slice(0, 6)
           .map((item: Product) => (
             <SwiperSlide key={item.id} className="flex">
-              <div className="h-[95%] w-[95%] rounded-lg shadow-simetri m-auto w-full group">
+              <div className="h-[95%] w-[95%] rounded-lg shadow-simetri m-auto group">
                 {/* IMAGE */}
                 <div className="w-full h-[65%] bg-primarySkyBlue flex p-4 relative overflow-hidden">
                   <div className="relative m-auto w-28 h-32">
@@ -62,13 +62,13 @@ const FeaturedProducts: React.FC<Props> = ({ productsData }) => {
                     />
                   </div>
                   <div className="w-[60%] absolute -top-0 left-0 flex p-1 justify-around items-center">
-                    <span className="inline-block w-6 h-6 flex justify-center items-center rounded-full hover:bg-primarySkyBlue hover:brightness-95 text-xs text-secondaryBlue hover:text-primaryNavyBlue scale-0 opacity-0 transition duration-700 group-hover:scale-100 group-hover:opacity-100 ">
+                    <span className="w-6 h-6 flex justify-center items-center rounded-full hover:bg-primarySkyBlue hover:brightness-95 text-xs text-secondaryBlue hover:text-primaryNavyBlue scale-0 opacity-0 transition duration-700 group-hover:scale-100 group-hover:opacity-100 ">
                       <BsCart />
                     </span>
-                    <span className="inline-block w-6 h-6 flex justify-center items-center rounded-full hover:bg-primarySkyBlue hover:brightness-95 text-xs text-secondaryBlue hover:text-primaryNavyBlue scale-0 opacity-0 transition duration-700 group-hover:scale-100 group-hover:opacity-100 ">
+                    <span className="w-6 h-6 flex justify-center items-center rounded-full hover:bg-primarySkyBlue hover:brightness-95 text-xs text-secondaryBlue hover:text-primaryNavyBlue scale-0 opacity-0 transition duration-700 group-hover:scale-100 group-hover:opacity-100 ">
                       <MdFavoriteBorder />
                     </span>
-                    <span className="inline-block w-6 h-6 flex justify-center items-center rounded-full hover:bg-primarySkyBlue hover:brightness-95 text-xs text-secondaryBlue hover:text-primaryNavyBlue scale-0 opacity-0 transition duration-700 group-hover:scale-100 group-hover:opacity-100 ">
+                    <span className="w-6 h-6 flex justify-center items-center rounded-full hover:bg-primarySkyBlue hover:brightness-95 text-xs text-secondaryBlue hover:text-primaryNavyBlue scale-0 opacity-0 transition duration-700 group-hover:scale-100 group-hover:opacity-100 ">
                       <BiSearchAlt />
                     </span>
                   </div>
