@@ -72,6 +72,9 @@ const FeaturedProducts: React.FC<Props> = ({ productsData }) => {
                       <BiSearchAlt />
                     </span>
                   </div>
+                  <div className="absolute bottom-2 translate-y-[150%] left-1/2 -translate-x-1/2 py-1 px-2 text-[0.5rem] text-primarySkyBlue bg-[#16D26D] flex justify-center items-center cursor-pointer transition duration-700 hover:brightness-95 group-hover:translate-y-0">
+                    View Details
+                  </div>
                 </div>
 
                 {/* DESCRIPTION */}
