@@ -24,6 +24,15 @@ module.exports = {
         josefin: ['Josefin Sans'],
         lato: ['Lato'],
       },
+      animation: {
+        expand: 'expand .7s ease-in-out forwards',
+      },
+      keyframes: {
+        expand: {
+          '0%': { width: '0%' },
+          '100%': { width: '100%' },
+        },
+      },
     },
   },
   plugins: [],

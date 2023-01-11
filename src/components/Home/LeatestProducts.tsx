@@ -5,6 +5,7 @@ import { BsCart } from 'react-icons/bs';
 import { MdFavoriteBorder } from 'react-icons/md';
 import { Product } from '../../data/productsData';
 import LeatestSkeletonLoading from './LeatestSkeletonLoading';
+import LinksLeatestProducts from './LinksLeatestProducts';
 
 interface Props {
   productsData: Product[];
@@ -41,11 +42,6 @@ const LatestProducts: React.FC<Props> = ({ productsData }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    // linkActive === "newArrival" && setFilteredProducts(productsData.reverse().slice(0,6));
-    // linkActive === "bestSeller" && setFilteredProducts(productsData.slice(0,6));
-    // linkActive === "featured" && setFilteredProducts(productsData.filter(({favourite}) => favourite > 4000).slice(0,6));
-    // linkActive === "specialOffer" && setFilteredProducts(productsData.filter(({price}) => price < 70).slice(0,6));
-
     setIsLoading(true);
 
     const timeout = setTimeout(() => {
@@ -75,21 +71,11 @@ const LatestProducts: React.FC<Props> = ({ productsData }) => {
       </h1>
 
       {/* LINKS */}
-      <ul className="mx-auto w-[50%] flex items-center justify-between gap-4">
-        {links.map((item: Links, i: number) => (
-          <li
-            key={Math.random() + i + ''}
-            className={`h-6 font-bold font-lato text-sm cursor-pointer ${
-              linkActive === item.slug
-                ? 'border-b-[1px] border-b-primaryPink text-primaryPink'
-                : 'border-none text-primaryBlue'
-            }`}
-            onClick={() => setLinkActive(item.slug)}
-          >
-            {item.name}
-          </li>
-        ))}
-      </ul>
+      <LinksLeatestProducts
+        links={links}
+        linkActive={linkActive}
+        setLinkActive={setLinkActive}
+      />
 
       {/* PRODUCTS */}
       <div className="w-full grid grid-cols-3 gap-x-8 gap-y-20 mt-10">
