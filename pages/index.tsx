@@ -3,6 +3,7 @@ import FeaturedProducts from '../src/components/Home/FeaturedProducts';
 import HeroCarraousel from '../src/components/Home/HeroCarraousel';
 import LeatestProducts from '../src/components/Home/LeatestProducts';
 import ShopexOffer from '../src/components/Home/ShopexOffer';
+import UniqueFeatures from '../src/components/Home/UniqueFeatures';
 import { productsData } from '../src/data/productsData';
 import { shopexOffers } from '../src/data/shopexOffer';
 
@@ -23,6 +24,7 @@ export default function Home() {
           <LeatestProducts productsData={productsData} />
           <ShopexOffer shopexOfferData={shopexOffers} />
         </section>
+        <UniqueFeatures />
       </main>
     </>
   );

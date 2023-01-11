@@ -6,4 +6,8 @@
   .shadow-simetri {
     box-shadow: 0 0 7px 2px rgba(0, 0, 0, 0.1);
   }
+
+  .asimetri-circle {
+    border-radius: 57% 43% 35% 65% / 46% 54% 46% 54%;
+  }
 }
