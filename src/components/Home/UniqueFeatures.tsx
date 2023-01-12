@@ -6,7 +6,7 @@ const UniqueFeatures: React.FC = () => {
   const data = productsData[17];
 
   return (
-    <div className="w-full min-h-[28rem] bg-primarySkyBlue py-5 mb-4 flex items-stretch justify-center ">
+    <div className="w-full min-h-[28rem] bg-primarySkyBlue py-5 flex items-stretch justify-center ">
       <div className="w-[900px] px-10 flex items-stretch justify-between gap-6">
         {/* IMAGE */}
         <div className="w-1/2 flex items-center justify-center relative">

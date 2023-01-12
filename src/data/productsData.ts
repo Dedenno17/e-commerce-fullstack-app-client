@@ -263,4 +263,48 @@ export const productsData: Product[] = [
     price: 73.5,
     favourite: 2011,
   },
+  {
+    id: 'pr24',
+    title: 'Table Clock Brown Medium',
+    description:
+      'Lorem Ipsum risus ultricies tristique nulla aliquet enim tortor at auctor urna nunc id cursus metus aliquam eleifend mi in nulla posuere',
+    img: 'https://i.ibb.co/RTzDZdf/Png-Item-797189.png',
+    categories: ['brown', 'clock'],
+    colors: ['brown', 'white', 'black'],
+    price: 23.0,
+    favourite: 5002,
+  },
+  {
+    id: 'pr25',
+    title: 'Table TV Brown Himejima',
+    description:
+      'Lorem Ipsum risus ultricies tristique nulla aliquet enim tortor at auctor urna nunc id cursus metus aliquam eleifend mi in nulla posuere',
+    img: 'https://i.ibb.co/jGvmqzy/Png-Item-2905637.png',
+    categories: ['brown', 'table', 'table-tv'],
+    colors: ['brown', 'white', 'black'],
+    price: 103.0,
+    favourite: 3461,
+  },
+  {
+    id: 'pr26',
+    title: 'TV Table Franken',
+    description:
+      'Lorem Ipsum risus ultricies tristique nulla aliquet enim tortor at auctor urna nunc id cursus metus aliquam eleifend mi in nulla posuere',
+    img: 'https://i.ibb.co/C61j4Hp/Png-Item-2905603.png',
+    categories: ['white', 'table', 'tv-table'],
+    colors: ['white', 'black', 'grey'],
+    price: 114.1,
+    favourite: 2610,
+  },
+  {
+    id: 'pr27',
+    title: 'Mosima TV Table Large',
+    description:
+      'Lorem Ipsum risus ultricies tristique nulla aliquet enim tortor at auctor urna nunc id cursus metus aliquam eleifend mi in nulla posuere',
+    img: 'https://i.ibb.co/rkJ6Xqr/Png-Item-2905586.png',
+    categories: ['brown', 'table', 'tv-table'],
+    colors: ['brown', 'black', 'white'],
+    price: 107.8,
+    favourite: 1429,
+  },
 ];

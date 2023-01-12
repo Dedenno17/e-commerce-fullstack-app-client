@@ -5,7 +5,7 @@ import { BsCart } from 'react-icons/bs';
 import { MdFavoriteBorder } from 'react-icons/md';
 import { Product } from '../../data/productsData';
 import LeatestSkeletonLoading from './LeatestSkeletonLoading';
-import LinksLeatestProducts from './LinksLeatestProducts';
+import LinksLeatestProducts from './LeatestProductsLinks';
 
 interface Props {
   productsData: Product[];
