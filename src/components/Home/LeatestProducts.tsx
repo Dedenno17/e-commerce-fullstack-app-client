@@ -5,7 +5,7 @@ import { BsCart } from 'react-icons/bs';
 import { MdFavoriteBorder } from 'react-icons/md';
 import { Product } from '../../data/productsData';
 import LeatestSkeletonLoading from './LeatestSkeletonLoading';
-import LinksLeatestProducts from './LeatestProductsLinks';
+import LinksLeatestProducts from './SectionProductsLinks';
 
 interface Props {
   productsData: Product[];
@@ -46,18 +46,34 @@ const LatestProducts: React.FC<Props> = ({ productsData }) => {
 
     const timeout = setTimeout(() => {
       if (linkActive === 'newArrival') {
-        setFilteredProducts(productsData.reverse());
+        setFilteredProducts(
+          productsData
+            .filter((item: Product) => item.categories.includes('chair'))
+            .reverse()
+        );
         setIsLoading(false);
       } else if (linkActive === 'bestSeller') {
-        setFilteredProducts(productsData.reverse());
+        setFilteredProducts(
+          productsData
+            .filter((item: Product) => item.categories.includes('chair'))
+            .reverse()
+        );
         setIsLoading(false);
       } else if (linkActive === 'featured') {
         setFilteredProducts(
-          productsData.filter(({ favourite }) => favourite > 4000)
+          productsData.filter(
+            ({ favourite, categories }) =>
+              favourite > 4000 && categories.includes('chair')
+          )
         );
         setIsLoading(false);
       } else {
-        setFilteredProducts(productsData.filter(({ price }) => price < 70));
+        setFilteredProducts(
+          productsData.filter(
+            ({ price, categories }) =>
+              price < 70 && categories.includes('chair')
+          )
+        );
         setIsLoading(false);
       }
     }, 500);
