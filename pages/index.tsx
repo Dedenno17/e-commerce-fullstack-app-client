@@ -3,6 +3,7 @@ import DiscountItem from '../src/components/Home/DiscountItem';
 import FeaturedProducts from '../src/components/Home/FeaturedProducts';
 import HeroCarraousel from '../src/components/Home/HeroCarraousel';
 import LeatestProducts from '../src/components/Home/LeatestProducts';
+import NewsLetter from '../src/components/Home/NewsLetter';
 import ShopexOffer from '../src/components/Home/ShopexOffer';
 import TopCategories from '../src/components/Home/TopCategories';
 import TrendingProducts from '../src/components/Home/TrendingProducts';
@@ -33,6 +34,7 @@ export default function Home() {
           <DiscountItem productsData={productsData} />
           <TopCategories productsData={productsData} />
         </section>
+        <NewsLetter />
       </main>
     </>
   );
