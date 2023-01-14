@@ -4,6 +4,7 @@ import FeaturedProducts from '../src/components/Home/FeaturedProducts';
 import HeroCarraousel from '../src/components/Home/HeroCarraousel';
 import LeatestProducts from '../src/components/Home/LeatestProducts';
 import ShopexOffer from '../src/components/Home/ShopexOffer';
+import TopCategories from '../src/components/Home/TopCategories';
 import TrendingProducts from '../src/components/Home/TrendingProducts';
 import UniqueFeatures from '../src/components/Home/UniqueFeatures';
 import { productsData } from '../src/data/productsData';
@@ -30,6 +31,7 @@ export default function Home() {
         <section className="w-full min-h-screen p-10 flex flex-col gap-6 items-center">
           <TrendingProducts productsData={productsData} />
           <DiscountItem productsData={productsData} />
+          <TopCategories productsData={productsData} />
         </section>
       </main>
     </>
