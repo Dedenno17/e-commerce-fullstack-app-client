@@ -2,6 +2,7 @@ import Head from 'next/head';
 import DiscountItem from '../src/components/Home/DiscountItem';
 import FeaturedProducts from '../src/components/Home/FeaturedProducts';
 import HeroCarraousel from '../src/components/Home/HeroCarraousel';
+import LeatestBlogs from '../src/components/Home/LeatestBlogs';
 import LeatestProducts from '../src/components/Home/LeatestProducts';
 import NewsLetter from '../src/components/Home/NewsLetter';
 import ShopexOffer from '../src/components/Home/ShopexOffer';
@@ -35,6 +36,9 @@ export default function Home() {
           <TopCategories productsData={productsData} />
         </section>
         <NewsLetter />
+        <section className="w-full min-h-screen p-10 flex flex-col justify-center items-center">
+          <LeatestBlogs />
+        </section>
       </main>
     </>
   );
