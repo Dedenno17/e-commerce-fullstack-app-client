@@ -26,11 +26,16 @@ module.exports = {
       },
       animation: {
         expand: 'expand .7s ease-in-out forwards',
+        move: 'move .7s ease-in-out forwards',
       },
       keyframes: {
         expand: {
           '0%': { width: '0%' },
           '100%': { width: '100%' },
+        },
+        move: {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateY(0)' },
         },
       },
     },
