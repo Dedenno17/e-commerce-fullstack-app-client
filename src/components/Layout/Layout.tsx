@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import Navbar from '../Header/Navbar';
 import Announcement from '../Header/Announcement';
 import Footer from '../Footer/Footer';
@@ -8,14 +8,28 @@ interface Props {
 }
 
 const Layout: React.FC<Props> = (props) => {
+  // state of auth page
+  const [isAuthPage, setIsAuthPage] = useState<boolean>(true);
+
+  // check if its authpage then navbar and footer wouldnt be loaded
+  useEffect(() => {
+    if (window.location.pathname === '/authentication') {
+      setIsAuthPage(true);
+    } else {
+      setIsAuthPage(false);
+    }
+  }, []);
+
   return (
     <div>
-      <header>
-        <Announcement />
-        <Navbar />
-      </header>
+      {!isAuthPage && (
+        <header>
+          <Announcement />
+          <Navbar />
+        </header>
+      )}
       <main className="w-full min-h-screen">{props.children}</main>
-      <Footer />
+      {!isAuthPage && <Footer />}
     </div>
   );
 };

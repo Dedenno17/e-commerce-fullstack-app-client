@@ -27,6 +27,7 @@ module.exports = {
       animation: {
         expand: 'expand .7s ease-in-out forwards',
         move: 'move .7s ease-in-out forwards',
+        scaling: 'scaling 25s ease infinite',
       },
       keyframes: {
         expand: {
@@ -36,6 +37,10 @@ module.exports = {
         move: {
           '0%': { transform: 'translateX(-100%)' },
           '100%': { transform: 'translateY(0)' },
+        },
+        scaling: {
+          '0%': { transform: 'scale(1)' },
+          '100%': { transform: 'scale(1.5)' },
         },
       },
     },
