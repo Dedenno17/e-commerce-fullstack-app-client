@@ -19,6 +19,7 @@ module.exports = {
         secondaryNavyBlue: '#2A3BA8',
         secondaryBlue: '#151875',
         secondaryPurple: '#9F64B4',
+        ternaryBlue: '#0BA7D6',
       },
       fontFamily: {
         josefin: ['Josefin Sans'],
