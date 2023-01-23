@@ -13,7 +13,7 @@ const navLinks: string[] = [
 const Navbar: React.FC = () => {
   return (
     <div className="w-full p-4 flex">
-      <div className="m-auto w-[65%] flex items-center justify-between">
+      <div className="m-auto w-[1024px] flex items-center justify-between">
         {/* links */}
         <div className="flex items-center gap-20">
           <h1 className="text-3xl text-black font-josefin font-bold">Hekto</h1>
