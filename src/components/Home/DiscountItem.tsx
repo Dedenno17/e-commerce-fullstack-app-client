@@ -121,13 +121,16 @@ const DiscountItem: React.FC<Props> = ({ productsData }) => {
           <div className="w-full relative flex">
             <div className="w-3/4 h-3/4 bg-primaryPink rounded-full m-auto opacity-10" />
             <div className=" w-[90%] h-[90%] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 absolute">
-              <Image
-                src={filteredProducts[0]?.img}
-                alt={filteredProducts[0]?.title}
-                sizes="true"
-                fill
-                priority
-              />
+              {filteredProducts.length !== 0 && (
+                <Image
+                  src={filteredProducts[0].img}
+                  alt={filteredProducts[0].title}
+                  sizes="true"
+                  fill
+                  priority
+                />
+              )}
+              {filteredProducts.length === 0 && <></>}
             </div>
           </div>
         </div>

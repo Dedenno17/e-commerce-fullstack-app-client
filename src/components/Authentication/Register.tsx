@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const Register: React.FC<{ setCurrentPage: (page: string) => void }> = ({
   setCurrentPage,
 }) => {
+  const [username, setUsername] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [cPassword, setCpassword] = useState<string>('');
+
   return (
     <div className="w-1/2 flex flex-col items-center justify-center gap-6 px-10">
       {/* HEAD */}
@@ -17,18 +22,6 @@ const Register: React.FC<{ setCurrentPage: (page: string) => void }> = ({
 
       {/* FORM */}
       <form className="w-full flex flex-col gap-3">
-        <div className="w-full flex items-center gap-4">
-          <input
-            type="text"
-            placeholder="First Name"
-            className="w-1/2 py-2 px-4 border-[1px] border-black/10 outline-none text-sm font-lato"
-          />
-          <input
-            type="text"
-            placeholder="Last Name"
-            className="w-1/2 py-2 px-4 border-[1px] border-black/10 outline-none text-sm font-lato"
-          />
-        </div>
         <input
           type="text"
           placeholder="Username"
