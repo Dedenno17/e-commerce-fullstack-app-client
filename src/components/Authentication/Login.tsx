@@ -1,8 +1,15 @@
+import { useFormik, FormikHelpers } from 'formik';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import { loginSchema } from '../../schema';
 import { useLoginMutation } from '../../Store/apiCalls';
 import { useAppDispatch } from '../../Store/hooks';
 import { setUser } from '../../Store/slices/user-slice';
+
+interface Values {
+  username: string;
+  password: string;
+}
 
 const Login: React.FC<{ setCurrentPage: (page: string) => void }> = ({
   setCurrentPage,
@@ -11,27 +18,23 @@ const Login: React.FC<{ setCurrentPage: (page: string) => void }> = ({
   const dispatch = useAppDispatch();
 
   // hooks for post the data user
-  const [login, { data, isLoading }] = useLoginMutation();
-
-  // control form state
-  const [username, setUsername] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const [sendData, { data, isLoading, error }] = useLoginMutation();
 
   // function submit form
-  const submitHandler = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const user = {
-      username,
-      password,
-    };
-
-    try {
-      await login(user).unwrap();
-    } catch (error) {
-      console.log(error);
-    }
+  const submitHandler = (values: Values) => {
+    sendData(values);
   };
+
+  // control form state
+  const { values, handleChange, handleSubmit, handleBlur, errors, touched } =
+    useFormik({
+      initialValues: {
+        username: '',
+        password: '',
+      },
+      validationSchema: loginSchema,
+      onSubmit: submitHandler,
+    });
 
   useEffect(() => {
     if (data) {
@@ -53,21 +56,43 @@ const Login: React.FC<{ setCurrentPage: (page: string) => void }> = ({
       </div>
 
       {/* FORM */}
-      <form className="w-full flex flex-col gap-4" onSubmit={submitHandler}>
+      <form className="w-full flex flex-col gap-4" onSubmit={handleSubmit}>
         <input
           type="text"
+          name="username"
           placeholder="Username"
-          className="w-full py-2 px-4 border-[1px] border-black/10 outline-none text-md font-lato"
-          value={username}
-          onChange={(event) => setUsername(event.target.value)}
+          className={`w-full py-2 px-4 border-[1px] outline-none text-md font-lato ${
+            errors.username && touched.username
+              ? 'border-primaryRed'
+              : 'border-black/10'
+          }`}
+          value={values.username}
+          onChange={handleChange}
+          onBlur={handleBlur}
         />
+        {errors.username && touched.username && (
+          <p className="text-[0.6rem] text-primaryRed text-left font-lato font-normal">
+            {errors.username}
+          </p>
+        )}
         <input
           type="password"
+          name="password"
           placeholder="Password"
-          className="w-full py-2 px-4 border-[1px] border-black/10 outline-none text-md font-lato"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
+          className={`w-full py-2 px-4 border-[1px] outline-none text-md font-lato ${
+            errors.username && touched.username
+              ? 'border-primaryRed'
+              : 'border-black/10'
+          }`}
+          value={values.password}
+          onChange={handleChange}
+          onBlur={handleBlur}
         />
+        {errors.password && touched.password && (
+          <p className="text-[0.6rem] text-primaryRed text-left font-lato font-normal">
+            {errors.password}
+          </p>
+        )}
         <span className="text-sm text-primaryBlue/40 font-lato">
           Forgot your password ?
         </span>
@@ -78,6 +103,12 @@ const Login: React.FC<{ setCurrentPage: (page: string) => void }> = ({
           {isLoading ? 'Loading ...' : 'Sign In'}
         </button>
       </form>
+
+      {error && (
+        <p className="text-[0.8rem] text-primaryRed font-lato font-normal text-left">
+          Something went wrong
+        </p>
+      )}
 
       <span className="text-sm text-primaryBlue/40 font-lato">
         Dont have any account ?{' '}

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { FormikHelpers, useFormik } from 'formik';
+import { useFormik } from 'formik';
 import { regisSchema } from '../../schema';
 import { useRegisterMutation } from '../../Store/apiCalls';
 import { useAppDispatch } from '../../Store/hooks';
@@ -26,11 +26,7 @@ const Register: React.FC<{ setCurrentPage: (page: string) => void }> = ({
   const [sendData, { isLoading, error, data }] = useRegisterMutation();
 
   // SUBMIT FUNCTION
-  const submitHandler = (
-    values: Values,
-    formikHelpers: FormikHelpers<Values>
-  ) => {
-    // console.log(values);
+  const submitHandler = (values: Values) => {
     sendData(values);
   };
 
@@ -69,7 +65,7 @@ const Register: React.FC<{ setCurrentPage: (page: string) => void }> = ({
       <form className="w-full flex flex-col gap-3" onSubmit={handleSubmit}>
         <input
           type="text"
-          id="username"
+          name="username"
           placeholder="Username"
           value={values.username}
           onBlur={handleBlur}
@@ -87,7 +83,7 @@ const Register: React.FC<{ setCurrentPage: (page: string) => void }> = ({
         )}
         <input
           type="email"
-          id="email"
+          name="email"
           placeholder="Email Address"
           value={values.email}
           onBlur={handleBlur}
@@ -109,7 +105,7 @@ const Register: React.FC<{ setCurrentPage: (page: string) => void }> = ({
         </span>
         <input
           type="password"
-          id="password"
+          name="password"
           placeholder="Password"
           value={values.password}
           onBlur={handleBlur}
@@ -127,7 +123,7 @@ const Register: React.FC<{ setCurrentPage: (page: string) => void }> = ({
         )}
         <input
           type="password"
-          id="confirmPassword"
+          name="confirmPassword"
           placeholder="Confirm Password"
           value={values.confirmPassword}
           onBlur={handleBlur}
@@ -146,7 +142,7 @@ const Register: React.FC<{ setCurrentPage: (page: string) => void }> = ({
         <span className="text-sm text-primaryBlue/40 font-lato flex items-center gap-4">
           <input
             type="checkbox"
-            id="acceptance"
+            name="acceptance"
             onChange={handleChange}
             onBlur={handleBlur}
           />
@@ -169,7 +165,7 @@ const Register: React.FC<{ setCurrentPage: (page: string) => void }> = ({
       </form>
 
       {error && (
-        <p className="text-[0.5rem] text-primaryRed font-lato font-norma">
+        <p className="text-[0.8rem] text-primaryRed font-lato font-normal text-left">
           Something went wrong
         </p>
       )}

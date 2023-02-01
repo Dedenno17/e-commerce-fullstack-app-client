@@ -18,3 +18,13 @@ export const regisSchema = yup.object().shape({
     .required('Required'),
   acceptance: yup.boolean().oneOf([true], 'Please accept the terms of service'),
 });
+
+// login schema
+export const loginSchema = yup.object().shape({
+  username: yup.string().min(2).required('Required'),
+  password: yup
+    .string()
+    .min(8)
+    .matches(passwordRules, { message: 'Please create a stronger password' })
+    .required('Required'),
+});
