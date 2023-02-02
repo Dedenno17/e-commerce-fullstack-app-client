@@ -5,7 +5,7 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_BASE_URL }),
   tagTypes: ['Register', 'Login'],
   endpoints: (build) => ({
-    register: build.mutation<Register, Partial<Register>>({
+    register: build.mutation<User, Partial<Register>>({
       query: (payload) => ({
         url: '/auth/register',
         method: 'POST',

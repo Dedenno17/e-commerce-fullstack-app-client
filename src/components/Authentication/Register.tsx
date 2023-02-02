@@ -45,8 +45,10 @@ const Register: React.FC<{ setCurrentPage: (page: string) => void }> = ({
     });
 
   useEffect(() => {
-    dispatch(setUser(data));
-    router.push('/');
+    if (data) {
+      dispatch(setUser(data));
+      router.push('/');
+    }
   }, [data, dispatch, router]);
 
   return (

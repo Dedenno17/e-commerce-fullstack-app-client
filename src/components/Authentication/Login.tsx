@@ -80,7 +80,7 @@ const Login: React.FC<{ setCurrentPage: (page: string) => void }> = ({
           name="password"
           placeholder="Password"
           className={`w-full py-2 px-4 border-[1px] outline-none text-md font-lato ${
-            errors.username && touched.username
+            errors.password && touched.password
               ? 'border-primaryRed'
               : 'border-black/10'
           }`}
