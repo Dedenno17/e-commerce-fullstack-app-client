@@ -1,3 +1,4 @@
+import { GetStaticProps, GetStaticPropsResult, NextPage } from 'next';
 import Head from 'next/head';
 import DiscountItem from '../src/components/Home/DiscountItem';
 import FeaturedProducts from '../src/components/Home/FeaturedProducts';
@@ -9,10 +10,36 @@ import ShopexOffer from '../src/components/Home/ShopexOffer';
 import TopCategories from '../src/components/Home/TopCategories';
 import TrendingProducts from '../src/components/Home/TrendingProducts';
 import UniqueFeatures from '../src/components/Home/UniqueFeatures';
-import { productsData } from '../src/data/productsData';
 import { shopexOffers } from '../src/data/shopexOffer';
+import { Product } from '../src/Types';
 
-export default function Home() {
+// interface Home props
+interface HomeProps {
+  productsData: Product[];
+}
+
+// get static props function
+export const getStaticProps: GetStaticProps<HomeProps> = async (): Promise<
+  GetStaticPropsResult<HomeProps> | any
+> => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/products`);
+    if (!res.ok) {
+      throw new Error('Failed to fetch!');
+    }
+    const data = await res.json();
+
+    return {
+      props: {
+        productsData: data,
+      },
+    };
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const Home: NextPage<HomeProps> = ({ productsData }) => {
   return (
     <>
       <Head>
@@ -42,4 +69,6 @@ export default function Home() {
       </main>
     </>
   );
-}
+};
+
+export default Home;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { A11y, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Product } from '../../data/productsData';
+import { Product } from '../../Types';
 
 import 'swiper/css';
 import 'swiper/css/autoplay';
@@ -47,7 +47,7 @@ const FeaturedProducts: React.FC<Props> = ({ productsData }) => {
           .filter((item: Product) => item.favourite > 4000)
           .slice(0, 6)
           .map((item: Product) => (
-            <SwiperSlide key={item.id} className="flex">
+            <SwiperSlide key={item._id} className="flex">
               <div className="h-[95%] w-[95%] rounded-lg shadow-simetri m-auto group">
                 {/* IMAGE */}
                 <div className="w-full h-[65%] bg-primarySkyBlue flex p-4 relative overflow-hidden">
@@ -97,7 +97,7 @@ const FeaturedProducts: React.FC<Props> = ({ productsData }) => {
                     ))}
                   </div>
                   <span className="text-xs text-primaryBlue font-josefin font-bold transition duration-700 group-hover:text-white">
-                    code: {item.id}
+                    code: {item._id.slice(0, 6)} ...
                   </span>
                   <span className="text-xs text-primaryBlue font-josefin font-bold transition duration-700 group-hover:text-white">
                     ${item.price}

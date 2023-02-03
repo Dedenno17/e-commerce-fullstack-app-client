@@ -35,8 +35,8 @@ export interface Product {
   title: string;
   description: string;
   img: string;
-  categories: [];
-  colors: [];
+  categories: string[];
+  colors: string[];
   price: number;
   favourite: number;
   info: {} | null;

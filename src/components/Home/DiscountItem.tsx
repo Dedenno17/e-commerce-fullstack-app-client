@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { AiOutlineCheck } from 'react-icons/ai';
-import { Product } from '../../data/productsData';
+import { Product } from '../../Types';
 import DiscountSkeletonLoading from './DiscountSkeletonLoading';
 import LinksDiscountProducts from './SectionProductsLinks';
 

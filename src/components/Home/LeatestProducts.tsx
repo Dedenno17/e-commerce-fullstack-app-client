@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { BiSearchAlt } from 'react-icons/bi';
 import { BsCart } from 'react-icons/bs';
 import { MdFavoriteBorder } from 'react-icons/md';
-import { Product } from '../../data/productsData';
+import { Product } from '../../Types';
 import LeatestSkeletonLoading from './LeatestSkeletonLoading';
 import LinksLeatestProducts from './SectionProductsLinks';
 
@@ -97,7 +97,7 @@ const LatestProducts: React.FC<Props> = ({ productsData }) => {
       <div className="w-full grid grid-cols-3 gap-x-8 gap-y-20 mt-10">
         {!isLoading &&
           filteredProducts.slice(0, 6).map((item: Product) => (
-            <div key={item.id} className="w-full flex flex-col group">
+            <div key={item._id} className="w-full flex flex-col group">
               {/* image */}
               <div className="w-full h-52 flex  bg-primarySkyBlue relative trnasition duration-700 group-hover:bg-transparent">
                 <div className="w-[70%] h-[80%] m-auto relative">

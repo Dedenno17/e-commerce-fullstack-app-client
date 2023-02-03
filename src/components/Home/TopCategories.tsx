@@ -1,7 +1,7 @@
 import React from 'react';
 import { Autoplay, A11y } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Product } from '../../data/productsData';
+import { Product } from '../../Types';
 
 import 'swiper/css';
 import 'swiper/css/autoplay';
@@ -31,7 +31,7 @@ const TopCollection: React.FC<{ productsData: Product[] }> = ({
       >
         {productsData.slice(6, 12).map((item: Product) => (
           <SwiperSlide
-            key={item.id + ''}
+            key={item._id}
             className="flex flex-col justify-center items-center gap-3 relative"
           >
             {/* IMAGE */}

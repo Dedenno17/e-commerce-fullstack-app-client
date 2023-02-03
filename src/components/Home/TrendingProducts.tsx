@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import React from 'react';
-import { Product } from '../../data/productsData';
+import { Product } from '../../Types';
 
 const TrendingProducts: React.FC<{ productsData: Product[] }> = ({
   productsData,
@@ -46,7 +46,7 @@ const TrendingProducts: React.FC<{ productsData: Product[] }> = ({
                 ? 'shadow-none p-0'
                 : 'shadow-simetri p-2 hover:scale-105 transition duration-700'
             } `}
-            key={item.id + ''}
+            key={item._id}
           >
             {i !== 4 && i !== 5 && (
               <>
@@ -120,7 +120,7 @@ const TrendingProducts: React.FC<{ productsData: Product[] }> = ({
                 {trendingSecThree.map((item: Product) => (
                   <li
                     className="w-full h-[30%] bg-transparent flex items-stretch gap-2 transition duration-700 group hover:bg-primaryPurple"
-                    key={item.id + 3 + ''}
+                    key={item._id}
                   >
                     <div className="w-[35%] flex p-4 relative overflow-hidden bg-primarySkyBlue transition duration-700 group-hover:bg-white">
                       <div className="relative m-auto w-8 h-10 ">
