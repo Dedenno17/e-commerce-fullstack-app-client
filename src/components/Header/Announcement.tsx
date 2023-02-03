@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { AiOutlineMail } from 'react-icons/ai';
+import { AiOutlineMail, AiOutlineSetting } from 'react-icons/ai';
 import { TfiAngleDown } from 'react-icons/tfi';
 import { MdOutlineFavoriteBorder } from 'react-icons/md';
 import { BsCart3 } from 'react-icons/bs';
@@ -69,33 +69,41 @@ const Announcement: React.FC = () => {
       )}
 
       {user && (
-        <div
-          className="m-auto w-[65%] flex items-center justify-between"
-          onBlur={() => console.log('blur')}
-        >
+        <div className="m-auto w-[65%] flex items-center justify-between">
           <div className="flex items-center gap-5">
             {/* USER MENU */}
-            <div
-              className="gap-2 flex items-center cursor-pointer relative"
-              onFocus={clickUserMenuHandler}
+            <button
+              className="gap-2 flex items-center cursor-pointer relative border-none outline-none"
+              onBlur={blurUserMenuHandler}
+              onClick={clickUserMenuHandler}
+              // onFocus={clickUserMenuHandler}
             >
-              <BiUser />
-              {user.others.username}
-              <TfiAngleDown onClick={clickUserMenuHandler} />
+              <div className="w-4 h-4 rounded-full bg-primarySkyBlue pointer-events-none" />
+              <p className="pointer-events-none">{user.others.username}</p>
+              <TfiAngleDown className="pointer-events-none" />
               {isShowMenuUser && (
-                <ul className="absolute -bottom-20 w-14 flex flex-col gap-2 p-1 rounded-sm shadow-simetri">
-                  <li className="w-full text-sm text-black/40 font-lato font-normal">
-                    <Link href="/profile">Profile</Link>
+                <ul className="absolute z-10 -bottom-20 left-0 w-24 flex items-center text-center flex-col gap-2 mx-auto bg-white shadow-simetri rounded-sm p-2">
+                  <li className="w-full text-sm text-black/40 font-lato font-normal cursor-pointer hover:underline">
+                    <Link href="/profile">
+                      <div className="flex items-center w-full gap-1">
+                        <BiUser />
+                        Profile
+                      </div>
+                    </Link>
                   </li>
-                  <li className="w-full text-sm text-black/40 font-lato font-normal">
-                    Logout
+                  <li className="w-full text-sm text-black/40 font-lato font-normal cursor-pointer hover:underline">
+                    <div className="flex items-center w-full gap-1">
+                      <AiOutlineSetting />
+                      Logout
+                    </div>
                   </li>
                 </ul>
               )}
-            </div>
+            </button>
             {/* EMAIL */}
             <span className="gap-2 flex items-center">
-              <AiOutlineMail /> {user.others.email}
+              <AiOutlineMail />
+              <p>{user.others.email}</p>
             </span>
           </div>
 
