@@ -1,9 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { Register, Login, User } from '../Types';
+import { Register, Login, User, Product } from '../Types';
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_BASE_URL }),
-  tagTypes: ['Register', 'Login'],
+  tagTypes: ['Register', 'Login', 'SearchProduct'],
   endpoints: (build) => ({
     register: build.mutation<User, Partial<Register>>({
       query: (payload) => ({
@@ -27,7 +27,15 @@ export const api = createApi({
       }),
       invalidatesTags: ['Login'],
     }),
+    getSearchProduct: build.query<Product, string>({
+      query: (query) => `/products/search?q=${query}`,
+      providesTags: ['SearchProduct'],
+    }),
   }),
 });
 
-export const { useRegisterMutation, useLoginMutation } = api;
+export const {
+  useRegisterMutation,
+  useLoginMutation,
+  useGetSearchProductQuery,
+} = api;

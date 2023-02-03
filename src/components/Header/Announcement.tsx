@@ -40,10 +40,6 @@ const Announcement: React.FC = () => {
     setIsShowMenuUser(true);
   };
 
-  useEffect(() => {
-    console.log(isShowMenuUser);
-  }, [isShowMenuUser]);
-
   return (
     <div className="w-full bg-primaryPurple p-2 text-xs text-primarySkyBlue font-josefin flex">
       {!user && (
@@ -76,7 +72,6 @@ const Announcement: React.FC = () => {
               className="gap-2 flex items-center cursor-pointer relative border-none outline-none"
               onBlur={blurUserMenuHandler}
               onClick={clickUserMenuHandler}
-              // onFocus={clickUserMenuHandler}
             >
               <div className="w-4 h-4 rounded-full bg-primarySkyBlue pointer-events-none" />
               <p className="pointer-events-none">{user.others.username}</p>

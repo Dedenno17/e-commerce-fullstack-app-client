@@ -28,3 +28,16 @@ export interface User {
   };
   accessToken: string;
 }
+
+// type data product
+export interface Product {
+  _id: string;
+  title: string;
+  description: string;
+  img: string;
+  categories: [];
+  colors: [];
+  price: number;
+  favourite: number;
+  info: {} | null;
+}
