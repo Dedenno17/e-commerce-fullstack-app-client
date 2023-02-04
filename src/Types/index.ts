@@ -41,3 +41,15 @@ export interface Product {
   favourite: number;
   info: {} | null;
 }
+
+// type products cart
+export interface CartProducts {
+  productsId: string;
+  quantity: number;
+}
+
+// type Cart
+export interface Cart {
+  userId: string;
+  products: CartProducts[];
+}

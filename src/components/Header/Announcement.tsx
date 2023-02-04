@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import { setAuthState } from '../../Store/slices/authState-slice';
 import { BiUser } from 'react-icons/bi';
 import Link from 'next/link';
+import { setUser } from '../../Store/slices/user-slice';
 
 const Announcement: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -38,6 +39,15 @@ const Announcement: React.FC = () => {
   // click user menu handler
   const clickUserMenuHandler = () => {
     setIsShowMenuUser(true);
+  };
+
+  // logout handler
+  const logoutHandler = () => {
+    window.location.reload();
+
+    setTimeout(() => {
+      dispatch(setUser(null));
+    }, 200);
   };
 
   return (
@@ -86,7 +96,10 @@ const Announcement: React.FC = () => {
                       </div>
                     </Link>
                   </li>
-                  <li className="w-full text-sm text-black/40 font-lato font-normal cursor-pointer hover:underline">
+                  <li
+                    className="w-full text-sm text-black/40 font-lato font-normal cursor-pointer hover:underline"
+                    onClick={logoutHandler}
+                  >
                     <div className="flex items-center w-full gap-1">
                       <AiOutlineSetting />
                       Logout

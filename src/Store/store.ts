@@ -14,6 +14,7 @@ import storage from 'redux-persist/lib/storage';
 // REDUCERS
 import authStateReducer from './slices/authState-slice';
 import userReducer from './slices/user-slice';
+import userCartReducer from './slices/userCart-slice';
 import { api } from './apiCalls';
 
 // PERSIST CONFIG
@@ -29,16 +30,27 @@ const persistUserConfig = {
   storage,
 };
 
+const persistUserCartConfig = {
+  key: 'userCart',
+  version: 1,
+  storage,
+};
+
 const persistedAuthReducer = persistReducer(
   persistAuthConfig,
   authStateReducer
 );
 const persistedUserReducer = persistReducer(persistUserConfig, userReducer);
+const persistedUserCartReducer = persistReducer(
+  persistUserCartConfig,
+  userCartReducer
+);
 
 export const store = configureStore({
   reducer: {
     authState: persistedAuthReducer,
     user: persistedUserReducer,
+    userCart: persistedUserCartReducer,
     [api.reducerPath]: api.reducer,
   },
   middleware: (getDefaultMiddleware) =>

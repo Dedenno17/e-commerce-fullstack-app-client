@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { A11y, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Product } from '../../Types';
+import { Cart, Product } from '../../Types';
 
 import 'swiper/css';
 import 'swiper/css/autoplay';
@@ -10,14 +10,31 @@ import Image from 'next/image';
 import { BsCart } from 'react-icons/bs';
 import { MdFavoriteBorder } from 'react-icons/md';
 import { BiSearchAlt } from 'react-icons/bi';
+import Link from 'next/link';
+import { useAppSelector } from '../../Store/hooks';
+import { useRouter } from 'next/router';
+import { useGetUserCartQuery } from '../../Store/apiCalls';
 
 interface Props {
   productsData: Product[];
 }
 
 const FeaturedProducts: React.FC<Props> = ({ productsData }) => {
+  const router = useRouter();
+
+  // user global state
+  const user = useAppSelector((state) => state.user.value);
+
+  // get usercart from server
+  const { data, error } = useGetUserCartQuery({
+    userId: user?.others._id,
+    token: user?.accessToken,
+  });
+
+  // page active
   const [pageActive, setPageActive] = useState<number>(0);
 
+  // change page pagination when slide active
   const changePageActive = () => {
     if (pageActive === 6) {
       setPageActive(1);
@@ -25,6 +42,33 @@ const FeaturedProducts: React.FC<Props> = ({ productsData }) => {
     }
 
     setPageActive(pageActive + 1);
+  };
+
+  // add to cart function
+  const addToCartHandler = (id: string) => {
+    // check if user didnt login
+    if (user === null) {
+      router.push('/authentication');
+      return;
+    }
+
+    const newCartProduct: Cart = {
+      userId: user.others._id,
+      products: [
+        {
+          productsId: id,
+          quantity: 1,
+        },
+      ],
+    };
+
+    // check if theres no cart from user then create
+    if (error) {
+      console.log('create');
+      return;
+    }
+
+    // if theres cart from user then attach it
   };
 
   return (
@@ -62,19 +106,26 @@ const FeaturedProducts: React.FC<Props> = ({ productsData }) => {
                     />
                   </div>
                   <div className="w-[60%] absolute -top-0 left-0 flex p-1 justify-around items-center">
-                    <span className="w-6 h-6 flex justify-center items-center rounded-full hover:bg-primarySkyBlue hover:brightness-95 text-xs text-secondaryBlue hover:text-primaryNavyBlue scale-0 opacity-0 transition duration-700 group-hover:scale-100 group-hover:opacity-100 ">
+                    <span
+                      className="w-6 h-6 flex justify-center items-center rounded-full hover:bg-primarySkyBlue hover:brightness-95 text-xs text-secondaryBlue hover:text-primaryNavyBlue scale-0 opacity-0 transition duration-700 group-hover:scale-100 group-hover:opacity-100 "
+                      onClick={() => addToCartHandler(item._id)}
+                    >
                       <BsCart />
                     </span>
                     <span className="w-6 h-6 flex justify-center items-center rounded-full hover:bg-primarySkyBlue hover:brightness-95 text-xs text-secondaryBlue hover:text-primaryNavyBlue scale-0 opacity-0 transition duration-700 group-hover:scale-100 group-hover:opacity-100 ">
                       <MdFavoriteBorder />
                     </span>
-                    <span className="w-6 h-6 flex justify-center items-center rounded-full hover:bg-primarySkyBlue hover:brightness-95 text-xs text-secondaryBlue hover:text-primaryNavyBlue scale-0 opacity-0 transition duration-700 group-hover:scale-100 group-hover:opacity-100 ">
-                      <BiSearchAlt />
-                    </span>
+                    <Link href={`/product/${item._id}`}>
+                      <span className="w-6 h-6 flex justify-center items-center rounded-full hover:bg-primarySkyBlue hover:brightness-95 text-xs text-secondaryBlue hover:text-primaryNavyBlue scale-0 opacity-0 transition duration-700 group-hover:scale-100 group-hover:opacity-100 ">
+                        <BiSearchAlt />
+                      </span>
+                    </Link>
                   </div>
-                  <div className="absolute bottom-2 translate-y-[150%] left-1/2 -translate-x-1/2 py-1 px-2 text-[0.5rem] text-primarySkyBlue bg-[#16D26D] flex justify-center items-center cursor-pointer transition duration-700 hover:brightness-95 group-hover:translate-y-0">
-                    View Details
-                  </div>
+                  <Link href={`/product/${item._id}`}>
+                    <div className="absolute bottom-2 translate-y-[150%] left-1/2 -translate-x-1/2 py-1 px-2 text-[0.5rem] text-primarySkyBlue bg-[#16D26D] flex justify-center items-center cursor-pointer transition duration-700 hover:brightness-95 group-hover:translate-y-0">
+                      View Details
+                    </div>
+                  </Link>
                 </div>
 
                 {/* DESCRIPTION */}
