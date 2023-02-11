@@ -1,9 +1,18 @@
 import Image from 'next/image';
-import React, { useMemo } from 'react';
-import { productsData } from '../../data/productsData';
+import Link from 'next/link';
+import React from 'react';
+import { Product } from '../../Types';
+// import { productsData } from '../../data/productsData';
 
-const UniqueFeatures: React.FC = () => {
-  const data = productsData[17];
+interface Props {
+  productsData: Product[];
+}
+
+const UniqueFeatures: React.FC<Props> = ({ productsData }) => {
+  const randomNumber = Math.round(
+    Math.random() * (productsData.length - 1 - 0 + 1) + 0
+  );
+  const data = productsData[randomNumber];
 
   return (
     <div className="w-full min-h-[28rem] bg-primarySkyBlue py-5 flex items-stretch justify-center ">
@@ -44,9 +53,11 @@ const UniqueFeatures: React.FC = () => {
           </ul>
 
           <div className="w-full flex items-stretch gap-4">
-            <button className="px-6 py-2 bg-primaryPink text-primarySkyBlue text-md font-josefin rounded-sm cursor-pointer hover:brightness-90">
-              Add to Cart
-            </button>
+            <Link href={`/product/${data._id}`}>
+              <button className="px-6 py-2 bg-primaryPink text-primarySkyBlue text-md font-josefin rounded-sm cursor-pointer hover:brightness-90">
+                Add to Cart
+              </button>
+            </Link>
             <div className="text-primaryBlue text-xs font-josefin flex flex-col justify-evenly">
               <span className="font-bold">{data.title}</span>
               <span className="font-light">$ {data.price}</span>

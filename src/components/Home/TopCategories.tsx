@@ -7,11 +7,12 @@ import 'swiper/css';
 import 'swiper/css/autoplay';
 import 'swiper/css/a11y';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 const TopCollection: React.FC<{ productsData: Product[] }> = ({
   productsData,
 }) => {
-  // const data = productsData.filter((item: Product) => )
+  const router = useRouter();
 
   return (
     <div className="w-[900px] p-10">
@@ -45,7 +46,10 @@ const TopCollection: React.FC<{ productsData: Product[] }> = ({
                   priority
                 />
               </div>
-              <div className="absolute bottom-4 translate-y-[200%] left-1/2 -translate-x-1/2 py-1 px-2 text-[0.5rem] text-primarySkyBlue bg-[#16D26D] flex justify-center items-center cursor-pointer transition duration-700 hover:brightness-95 group-hover:translate-y-0">
+              <div
+                className="absolute bottom-4 translate-y-[200%] left-1/2 -translate-x-1/2 py-1 px-2 text-[0.5rem] text-primarySkyBlue bg-[#16D26D] flex justify-center items-center cursor-pointer transition duration-700 hover:brightness-95 group-hover:translate-y-0"
+                onClick={() => router.push(`/product/${item._id}`)}
+              >
                 View Details
               </div>
             </div>

@@ -137,7 +137,7 @@ const CartModal: React.FC<{
           <div className="w-full flex gap-4 h-60 items-stretch border-y-[1px] border-y-black/10">
             {/* IMAGE */}
             <div className="w-[35%] p-4">
-              <div className="relative w-full h-full bg-primaryPink">
+              <div className="relative w-full h-full">
                 <Image
                   src={dataProduct.img}
                   alt={dataProduct.title}

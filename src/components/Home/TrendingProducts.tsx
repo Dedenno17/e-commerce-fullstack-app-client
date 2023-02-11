@@ -1,10 +1,13 @@
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import React from 'react';
 import { Product } from '../../Types';
 
 const TrendingProducts: React.FC<{ productsData: Product[] }> = ({
   productsData,
 }) => {
+  const router = useRouter();
+
   const trendingSecOne = productsData
     .filter(
       (item: Product) =>
@@ -29,6 +32,11 @@ const TrendingProducts: React.FC<{ productsData: Product[] }> = ({
     )
     .slice(0, 3);
 
+  // move function
+  const goToDetailHandler = (id: string) => {
+    router.push(`/product/${id}`);
+  };
+
   return (
     <div className="w-[900px] p-10">
       <h1 className="text-3xl text-primaryNavyBlue font-josefin text-center font-bold mb-8">
@@ -50,7 +58,10 @@ const TrendingProducts: React.FC<{ productsData: Product[] }> = ({
           >
             {i !== 4 && i !== 5 && (
               <>
-                <div className="w-full h-[70%] flex p-4 relative overflow-hidden bg-primarySkyBlue">
+                <div
+                  className="w-full h-[70%] flex p-4 relative overflow-hidden bg-primarySkyBlue cursor-pointer"
+                  onClick={() => goToDetailHandler(item._id)}
+                >
                   <div className="relative m-auto w-28 h-32 ">
                     <Image
                       src={item.img}
@@ -62,7 +73,10 @@ const TrendingProducts: React.FC<{ productsData: Product[] }> = ({
                     />
                   </div>
                 </div>
-                <div className="w-full h-[30%] py-2 px-5 flex flex-col items-center justify-evenly pointer-events-none">
+                <div
+                  className="w-full h-[30%] py-2 px-5 flex flex-col items-center justify-evenly pointer-events-none cursor-pointer"
+                  onClick={() => goToDetailHandler(item._id)}
+                >
                   <h2 className="text-sm text-primaryBlue font-bold font-josefin">
                     {item.title}
                   </h2>
@@ -74,7 +88,10 @@ const TrendingProducts: React.FC<{ productsData: Product[] }> = ({
             )}
             {i === 4 && (
               <>
-                <div className="w-full bg-primarySkyBlue shadow-simetri px-3 pb-6 relative flex items-end justify-end transition duration-700 hover:brightness-90">
+                <div
+                  className="w-full bg-primarySkyBlue shadow-simetri px-3 pb-6 relative flex items-end justify-end transition duration-700 hover:brightness-90 cursor-pointer"
+                  onClick={() => goToDetailHandler(trendingSecTwoClock._id)}
+                >
                   <div className="w-[80%] h-[50%] relative">
                     <Image
                       src={trendingSecTwoClock.img}
@@ -94,7 +111,10 @@ const TrendingProducts: React.FC<{ productsData: Product[] }> = ({
                   </div>
                 </div>
 
-                <div className="w-full bg-primarySkyBlue shadow-simetri px-3 pb-6 flex relative items-end justify-end transition duration-700 hover:brightness-90">
+                <div
+                  className="w-full bg-primarySkyBlue shadow-simetri px-3 pb-6 flex relative items-end justify-end transition duration-700 hover:brightness-90 cursor-pointer"
+                  onClick={() => goToDetailHandler(trendingSecTwoTable._id)}
+                >
                   <div className="w-[80%] h-[50%] relative">
                     <Image
                       src={trendingSecTwoTable.img}
@@ -119,8 +139,9 @@ const TrendingProducts: React.FC<{ productsData: Product[] }> = ({
               <ul className="w-full h-full flex flex-col justify-between">
                 {trendingSecThree.map((item: Product) => (
                   <li
-                    className="w-full h-[30%] bg-transparent flex items-stretch gap-2 transition duration-700 group hover:bg-primaryPurple"
+                    className="w-full h-[30%] bg-transparent flex items-stretch gap-2 transition duration-700 group hover:bg-primaryPurple cursor-pointer"
                     key={item._id}
+                    onClick={() => goToDetailHandler(item._id)}
                   >
                     <div className="w-[35%] flex p-4 relative overflow-hidden bg-primarySkyBlue transition duration-700 group-hover:bg-white">
                       <div className="relative m-auto w-8 h-10 ">

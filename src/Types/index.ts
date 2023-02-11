@@ -58,3 +58,14 @@ export interface Cart {
   products: CartProducts[];
   totalPrice: number;
 }
+
+// type blog
+export interface Blog {
+  _id: string;
+  title: string;
+  atuhor: string;
+  content: string;
+  img: string;
+  categories: string[];
+  createdAt: any;
+}

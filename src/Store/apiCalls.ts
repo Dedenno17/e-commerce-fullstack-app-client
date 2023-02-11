@@ -1,5 +1,13 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { Register, Login, User, Product, Cart, CartProducts } from '../Types';
+import {
+  Register,
+  Login,
+  User,
+  Product,
+  Cart,
+  CartProducts,
+  Blog,
+} from '../Types';
 
 // interface
 interface GetQueryUserCart {
@@ -22,6 +30,8 @@ export const api = createApi({
     'CreateUserCart',
     'AddUserCart',
     'GetSingleProduct',
+    'GetBlogs',
+    'GetSingleBlog',
   ],
   endpoints: (build) => ({
     register: build.mutation<User, Partial<Register>>({
@@ -94,6 +104,14 @@ export const api = createApi({
       query: (id) => `/products/find/${id}`,
       providesTags: ['GetSingleProduct'],
     }),
+    getBlogs: build.query<Blog[], Partial<Blog>>({
+      query: () => `/blogs`,
+      providesTags: ['GetBlogs'],
+    }),
+    getSingleBlog: build.query<Blog, string>({
+      query: (id) => `/blogs/${id}`,
+      providesTags: ['GetSingleBlog'],
+    }),
   }),
 });
 
@@ -105,4 +123,6 @@ export const {
   useCreateUserCartMutation,
   useAddUserCartMutation,
   useGetSingleProductQuery,
+  useGetBlogsQuery,
+  useGetSingleBlogQuery,
 } = api;

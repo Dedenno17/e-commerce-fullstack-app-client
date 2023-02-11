@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { AiOutlineCheck } from 'react-icons/ai';
 import { Product } from '../../Types';
@@ -37,6 +38,8 @@ const listProductFeature: string[] = [
 ];
 
 const DiscountItem: React.FC<Props> = ({ productsData }) => {
+  const router = useRouter();
+
   const [linkActive, setLinkActive] = useState<string>('woodChair');
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -112,6 +115,7 @@ const DiscountItem: React.FC<Props> = ({ productsData }) => {
             </ul>
             <button
               type="button"
+              onClick={() => router.push(filteredProducts[0]._id)}
               className="text-sm text-primarySkyBlue border-none outline-none cursor-pointer bg-primaryPink w-[35%] py-3 font-josefin hover:brightness-90"
             >
               Shop Now

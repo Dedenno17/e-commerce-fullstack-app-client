@@ -70,7 +70,7 @@ const FeaturedProducts: React.FC<Props> = ({
                   </div>
                   <div className="w-[60%] absolute -top-0 left-0 flex p-1 justify-around items-center">
                     <span
-                      className="w-6 h-6 flex justify-center items-center rounded-full hover:bg-primarySkyBlue hover:brightness-95 text-xs text-secondaryBlue hover:text-primaryNavyBlue scale-0 opacity-0 transition duration-700 group-hover:scale-100 group-hover:opacity-100 "
+                      className="w-6 h-6 flex justify-center items-center rounded-full hover:bg-primarySkyBlue hover:brightness-95 text-xs text-secondaryBlue hover:text-primaryNavyBlue scale-0 opacity-0 transition duration-700 group-hover:scale-100 group-hover:opacity-100 cursor-pointer"
                       onClick={() => addToCartHandler(item._id)}
                     >
                       <BsCart />

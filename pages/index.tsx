@@ -13,47 +13,61 @@ import TopCategories from '../src/components/Home/TopCategories';
 import TrendingProducts from '../src/components/Home/TrendingProducts';
 import UniqueFeatures from '../src/components/Home/UniqueFeatures';
 import { shopexOffers } from '../src/data/shopexOffer';
-import {
-  useCreateUserCartMutation,
-  useGetUserCartQuery,
-} from '../src/Store/apiCalls';
-import { useAppDispatch, useAppSelector } from '../src/Store/hooks';
-import { Cart, Product } from '../src/Types';
-import { createCart } from '../src/Store/slices/userCart-slice';
+import { Blog, Product } from '../src/Types';
 import CartModal from '../src/components/Home/CartModal';
 
 // interface Home props
 interface HomeProps {
   productsData: Product[];
+  blogsData: Blog[];
 }
 
-// get static props function
-export const getStaticProps: GetStaticProps<HomeProps> = async (): Promise<
-  GetStaticPropsResult<HomeProps> | any
-> => {
+// get all products function
+export const getAllProducts = async (): Promise<Product[] | any> => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/products`);
     if (!res.ok) {
       throw new Error('Failed to fetch!');
     }
     const data = await res.json();
-
-    return {
-      props: {
-        productsData: data,
-      },
-    };
+    return data;
   } catch (error) {
     console.log(error);
   }
 };
 
-const Home: NextPage<HomeProps> = ({ productsData }) => {
+// get all blogs function
+export const getAllBlogs = async (): Promise<Blog[] | any> => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/blogs`);
+    if (!res.ok) {
+      throw new Error('Failed to fetch!');
+    }
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// get static props function
+export const getStaticProps: GetStaticProps<HomeProps> = async (): Promise<
+  GetStaticPropsResult<HomeProps> | any
+> => {
+  const productsData = await getAllProducts();
+  const blogsData = await getAllBlogs();
+
+  return {
+    props: {
+      productsData,
+      blogsData,
+    },
+  };
+};
+
+const Home: NextPage<HomeProps> = ({ productsData, blogsData }) => {
   const [cartProductId, setCartProductId] = useState<string>('');
   const [isShowCartModal, setIsShowCartModal] = useState<boolean>(false);
-
-  // user global state
-  const user = useAppSelector((state) => state.user.value);
 
   // add to cart function
   const addToCartHandler = (id: string) => {
@@ -81,10 +95,13 @@ const Home: NextPage<HomeProps> = ({ productsData }) => {
             productsData={productsData}
             addToCartHandler={addToCartHandler}
           />
-          <LeatestProducts productsData={productsData} />
+          <LeatestProducts
+            productsData={productsData}
+            addToCartHandler={addToCartHandler}
+          />
           <ShopexOffer shopexOfferData={shopexOffers} />
         </section>
-        <UniqueFeatures />
+        <UniqueFeatures productsData={productsData} />
         <section className="w-full min-h-screen p-10 flex flex-col gap-6 items-center">
           <TrendingProducts productsData={productsData} />
           <DiscountItem productsData={productsData} />
@@ -92,7 +109,7 @@ const Home: NextPage<HomeProps> = ({ productsData }) => {
         </section>
         <NewsLetter />
         <section className="w-full min-h-screen p-10 flex flex-col justify-center items-center">
-          <LeatestBlogs />
+          <LeatestBlogs blogsData={blogsData} />
         </section>
       </main>
 
