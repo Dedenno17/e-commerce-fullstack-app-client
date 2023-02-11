@@ -11,26 +11,16 @@ import { BsCart } from 'react-icons/bs';
 import { MdFavoriteBorder } from 'react-icons/md';
 import { BiSearchAlt } from 'react-icons/bi';
 import Link from 'next/link';
-import { useAppSelector } from '../../Store/hooks';
-import { useRouter } from 'next/router';
-import { useGetUserCartQuery } from '../../Store/apiCalls';
 
 interface Props {
   productsData: Product[];
+  addToCartHandler: (id: string) => void;
 }
 
-const FeaturedProducts: React.FC<Props> = ({ productsData }) => {
-  const router = useRouter();
-
-  // user global state
-  const user = useAppSelector((state) => state.user.value);
-
-  // get usercart from server
-  const { data, error } = useGetUserCartQuery({
-    userId: user?.others._id,
-    token: user?.accessToken,
-  });
-
+const FeaturedProducts: React.FC<Props> = ({
+  productsData,
+  addToCartHandler,
+}) => {
   // page active
   const [pageActive, setPageActive] = useState<number>(0);
 
@@ -42,33 +32,6 @@ const FeaturedProducts: React.FC<Props> = ({ productsData }) => {
     }
 
     setPageActive(pageActive + 1);
-  };
-
-  // add to cart function
-  const addToCartHandler = (id: string) => {
-    // check if user didnt login
-    if (user === null) {
-      router.push('/authentication');
-      return;
-    }
-
-    const newCartProduct: Cart = {
-      userId: user.others._id,
-      products: [
-        {
-          productsId: id,
-          quantity: 1,
-        },
-      ],
-    };
-
-    // check if theres no cart from user then create
-    if (error) {
-      console.log('create');
-      return;
-    }
-
-    // if theres cart from user then attach it
   };
 
   return (

@@ -20,19 +20,16 @@ import { api } from './apiCalls';
 // PERSIST CONFIG
 const persistAuthConfig = {
   key: 'auth',
-  version: 1,
   storage,
 };
 
 const persistUserConfig = {
   key: 'user',
-  version: 1,
   storage,
 };
 
 const persistUserCartConfig = {
   key: 'userCart',
-  version: 1,
   storage,
 };
 

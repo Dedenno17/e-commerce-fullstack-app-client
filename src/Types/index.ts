@@ -26,7 +26,7 @@ export interface User {
     __v: number;
     _id: string;
   };
-  accessToken: string;
+  accesToken: string;
 }
 
 // type data product
@@ -45,6 +45,10 @@ export interface Product {
 // type products cart
 export interface CartProducts {
   productsId: string;
+  title: string;
+  color: string;
+  image: string;
+  price: number;
   quantity: number;
 }
 
@@ -52,4 +56,5 @@ export interface CartProducts {
 export interface Cart {
   userId: string;
   products: CartProducts[];
+  totalPrice: number;
 }

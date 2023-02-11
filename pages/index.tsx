@@ -1,5 +1,7 @@
 import { GetStaticProps, GetStaticPropsResult, NextPage } from 'next';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import DiscountItem from '../src/components/Home/DiscountItem';
 import FeaturedProducts from '../src/components/Home/FeaturedProducts';
 import HeroCarraousel from '../src/components/Home/HeroCarraousel';
@@ -11,7 +13,14 @@ import TopCategories from '../src/components/Home/TopCategories';
 import TrendingProducts from '../src/components/Home/TrendingProducts';
 import UniqueFeatures from '../src/components/Home/UniqueFeatures';
 import { shopexOffers } from '../src/data/shopexOffer';
-import { Product } from '../src/Types';
+import {
+  useCreateUserCartMutation,
+  useGetUserCartQuery,
+} from '../src/Store/apiCalls';
+import { useAppDispatch, useAppSelector } from '../src/Store/hooks';
+import { Cart, Product } from '../src/Types';
+import { createCart } from '../src/Store/slices/userCart-slice';
+import CartModal from '../src/components/Home/CartModal';
 
 // interface Home props
 interface HomeProps {
@@ -40,6 +49,22 @@ export const getStaticProps: GetStaticProps<HomeProps> = async (): Promise<
 };
 
 const Home: NextPage<HomeProps> = ({ productsData }) => {
+  const [cartProductId, setCartProductId] = useState<string>('');
+  const [isShowCartModal, setIsShowCartModal] = useState<boolean>(false);
+
+  // user global state
+  const user = useAppSelector((state) => state.user.value);
+
+  // add to cart function
+  const addToCartHandler = (id: string) => {
+    setCartProductId(id);
+    setIsShowCartModal(true);
+  };
+
+  const closeCartModalHandler = () => {
+    setIsShowCartModal(false);
+  };
+
   return (
     <>
       <Head>
@@ -52,7 +77,10 @@ const Home: NextPage<HomeProps> = ({ productsData }) => {
       <main>
         <HeroCarraousel />
         <section className="w-full min-h-screen p-10 flex flex-col gap-6 items-center">
-          <FeaturedProducts productsData={productsData} />
+          <FeaturedProducts
+            productsData={productsData}
+            addToCartHandler={addToCartHandler}
+          />
           <LeatestProducts productsData={productsData} />
           <ShopexOffer shopexOfferData={shopexOffers} />
         </section>
@@ -67,6 +95,14 @@ const Home: NextPage<HomeProps> = ({ productsData }) => {
           <LeatestBlogs />
         </section>
       </main>
+
+      {isShowCartModal && (
+        <CartModal
+          isShowCartModal={isShowCartModal}
+          id={cartProductId}
+          onClose={closeCartModalHandler}
+        />
+      )}
     </>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { AiOutlineMail, AiOutlineSetting } from 'react-icons/ai';
 import { TfiAngleDown } from 'react-icons/tfi';
 import { MdOutlineFavoriteBorder } from 'react-icons/md';
@@ -43,11 +43,8 @@ const Announcement: React.FC = () => {
 
   // logout handler
   const logoutHandler = () => {
-    window.location.reload();
-
-    setTimeout(() => {
-      dispatch(setUser(null));
-    }, 200);
+    router.push('/authentication');
+    dispatch(setUser(null));
   };
 
   return (

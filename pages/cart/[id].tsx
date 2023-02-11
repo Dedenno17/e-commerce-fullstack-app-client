@@ -2,11 +2,12 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
 import CartCheckout from '../../src/components/Cart/CartCheckout';
 import CartProducts from '../../src/components/Cart/CartProducts';
 import { Product, productsData } from '../../src/data/productsData';
+import { useAppSelector } from '../../src/Store/hooks';
 
 interface TableHead {
   name: string;
@@ -22,6 +23,12 @@ const tableHeads: TableHead[] = [
 const Cart: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
+
+  const userCart = useAppSelector((state) => state.userCart.value);
+
+  useEffect(() => {
+    console.log(userCart);
+  }, [userCart]);
 
   return (
     <>
