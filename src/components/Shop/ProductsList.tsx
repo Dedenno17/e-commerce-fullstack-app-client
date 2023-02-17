@@ -84,7 +84,7 @@ const ProductsList: React.FC<Props> = ({
   }, [sort, filterForProducts, setAllPages]);
 
   return (
-    <div className="w-[77%] min-h-[80vh] p-2 flex flex-col gap-8">
+    <div className="w-[77%] min-h-[80vh] p-2 flex flex-col justify-between">
       {/* PRODUCTS LIST */}
       <ul
         className={`grid gap-4 w-full ${
