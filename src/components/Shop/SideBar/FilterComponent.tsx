@@ -1,5 +1,5 @@
 import React from 'react';
-import { BsCheck, BsStarFill } from 'react-icons/bs';
+import { BsCheck, BsStarFill, BsStar } from 'react-icons/bs';
 
 interface CheckBoxList {
   id: string;
@@ -11,17 +11,31 @@ const FilterComponent: React.FC<{
   filterTitle: string;
   isRating: boolean;
   isColor: boolean;
+  value: string;
   setValue: (value: string) => void;
-}> = ({ filterItems, isRating, isColor, filterTitle, setValue }) => {
-  // is checked or not
-  //   const checkedStat = (e: { target: HTMLInputElement }) => {
-  //     if(e.target.checked) {
-  //         setValue(e.target.value);
-  //     }
+  name: string;
+}> = ({
+  filterItems,
+  isRating,
+  isColor,
+  filterTitle,
+  value,
+  setValue,
+  name,
+}) => {
+  // const [isChecked, setIsChecked] = useState<boolean>(false);
 
-  //     setValue("");
-  // console.log(e.target.value);
-  //   };
+  // is checked or not
+  const checkedStat = (e: { target: HTMLInputElement }) => {
+    if (e.target.checked) {
+      setValue(e.target.value);
+      // setIsChecked(true);
+      return;
+    }
+
+    setValue('');
+    // setIsChecked(false);
+  };
 
   return (
     <div className="w-full">
@@ -48,19 +62,16 @@ const FilterComponent: React.FC<{
                   }`}
                 >
                   <input
-                    type="checkbox"
+                    type="radio"
                     id={list.id}
-                    // onChange={checkedStat}
-                    // value={list.title.toLowerCase()}
+                    onChange={checkedStat}
+                    name={name}
+                    value={list.id}
                     className="absolute top-0 left-0 opacity-0 cursor-pointer"
                   />
-                  <BsCheck
-                    className={`text-xs m-auto ${
-                      filterTitle === 'Product Brand'
-                        ? 'text-primaryBlue'
-                        : 'text-primaryPink'
-                    }`}
-                  />
+                  {value === list.id && (
+                    <BsCheck className="text-xs m-auto text-primaryPink" />
+                  )}
                 </div>
                 <label htmlFor={list.id} className="cursor-pointer">
                   {list.title}
@@ -71,15 +82,26 @@ const FilterComponent: React.FC<{
               <>
                 <div className="w-3 h-3 border-[1px] border-black/10 flex relative bg-[#D0A32D]/40 ">
                   <input
-                    type="checkbox"
+                    type="radio"
+                    onChange={checkedStat}
                     id={list.id}
+                    name={name}
+                    value={list.title}
                     className="absolute top-0 left-0 opacity-0 cursor-pointer"
                   />
-                  <BsCheck className="text-[#D0A32D] text-xs m-auto" />
+                  {value === list.id && (
+                    <BsCheck className="text-[#D0A32D] text-xs m-auto" />
+                  )}
                 </div>
                 <span className="flex items-center gap-1">
                   {[1, 2, 3, 4, 5].map((rat: number) => (
-                    <BsStarFill key={rat} className="text-[#D0A32D]" />
+                    <span key={rat}>
+                      {rat <= parseInt(list.title) ? (
+                        <BsStarFill className="text-[#D0A32D]" />
+                      ) : (
+                        <BsStar className="text-[#D0A32D]" />
+                      )}
+                    </span>
                   ))}
                 </span>
                 <label htmlFor={list.id} className="cursor-pointer">
@@ -90,8 +112,13 @@ const FilterComponent: React.FC<{
             {!isRating && isColor && (
               <>
                 <div
-                  className="w-3 h-3 rounded-full border-[1px] border-black/10 cursor-pointer"
-                  style={{ backgroundColor: `${list.title}` }}
+                  className={`w-3 h-3 rounded-full ${
+                    value === list.id
+                      ? 'border-[2px] border-black/80'
+                      : 'border-[1px] border-black/10'
+                  } cursor-pointer`}
+                  style={{ backgroundColor: `${list.id}` }}
+                  onClick={() => setValue(list.id)}
                 />
                 <span>{list.title}</span>
               </>

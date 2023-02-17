@@ -19,6 +19,13 @@ interface AddQueryUserCart {
   token: string;
   payload: Cart;
 }
+interface FilterForProducts {
+  discount: string;
+  rating: number;
+  categories: string;
+  price: number;
+  color: string;
+}
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_BASE_URL }),
@@ -29,6 +36,7 @@ export const api = createApi({
     'GetUserCart',
     'CreateUserCart',
     'AddUserCart',
+    'GetProducts',
     'GetSingleProduct',
     'GetBlogs',
     'GetSingleBlog',
@@ -89,7 +97,7 @@ export const api = createApi({
       query: (arg) => {
         const { userId, token, payload } = arg;
         return {
-          url: `cart/${userId}`,
+          url: `/cart/${userId}`,
           method: 'PUT',
           body: payload,
           headers: {
@@ -99,6 +107,14 @@ export const api = createApi({
         };
       },
       invalidatesTags: ['AddUserCart'],
+    }),
+    getProducts: build.query<Product[], any>({
+      query: (par) => ({
+        url: '/products',
+        method: 'GET',
+        params: { ...par },
+      }),
+      providesTags: ['GetProducts'],
     }),
     getSingleProduct: build.query<Product, string>({
       query: (id) => `/products/find/${id}`,
@@ -125,4 +141,5 @@ export const {
   useGetSingleProductQuery,
   useGetBlogsQuery,
   useGetSingleBlogQuery,
+  useLazyGetProductsQuery,
 } = api;

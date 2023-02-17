@@ -1,164 +1,9 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { BsStarFill } from 'react-icons/bs';
 import FilterComponent from './FilterComponent';
 
-interface CheckBoxList {
-  id: string;
-  title: string;
-}
-
-const productBrandList: CheckBoxList[] = [
-  {
-    id: 'coaster',
-    title: 'Coaster Furniture',
-  },
-  {
-    id: 'fusion',
-    title: 'Fusion Dot High Fashion',
-  },
-  {
-    id: 'unique',
-    title: 'Unique Furniture Restore',
-  },
-  {
-    id: 'dream',
-    title: 'Dream Furniture Flipping',
-  },
-  {
-    id: 'young',
-    title: 'Young Repurposed',
-  },
-  {
-    id: 'green',
-    title: 'Green DIY Furniture',
-  },
-];
-
-const discountOfferList: CheckBoxList[] = [
-  {
-    id: '20%',
-    title: '20% Cashback Offer',
-  },
-  {
-    id: '5%',
-    title: '5% Cashback Offer',
-  },
-  {
-    id: '25%',
-    title: '25% Cashback Offer',
-  },
-];
-
-const ratingItemList: CheckBoxList[] = [
-  {
-    id: '4000',
-    title: '4000',
-  },
-  {
-    id: '3000',
-    title: '3000',
-  },
-  {
-    id: '2000',
-    title: '2000',
-  },
-];
-
-const categoriesList: CheckBoxList[] = [
-  {
-    id: 'prestashop',
-    title: 'Prestashop',
-  },
-  {
-    id: 'magento',
-    title: 'Magento',
-  },
-  {
-    id: 'bigCommerce',
-    title: 'BigCommerce',
-  },
-  {
-    id: 'osCommerce',
-    title: 'osCommerce',
-  },
-  {
-    id: 'bags',
-    title: 'Bags',
-  },
-  {
-    id: 'watches',
-    title: 'Watches',
-  },
-];
-
-const priceList: CheckBoxList[] = [
-  {
-    id: '20',
-    title: '$20 - $30',
-  },
-  {
-    id: '30',
-    title: '$30 - $40',
-  },
-  {
-    id: '40',
-    title: '$40 - $50',
-  },
-  {
-    id: '50',
-    title: '$50 - $60',
-  },
-  {
-    id: '60',
-    title: '$60 - $70',
-  },
-  {
-    id: '70',
-    title: '$70 - $80',
-  },
-  {
-    id: '80',
-    title: '$80 - $90',
-  },
-  {
-    id: '90',
-    title: '$90 - $100',
-  },
-  {
-    id: '100',
-    title: '$100 - $110',
-  },
-];
-
-const colorsList: CheckBoxList[] = [
-  {
-    id: 'black',
-    title: 'Black',
-  },
-  {
-    id: 'white',
-    title: 'White',
-  },
-  {
-    id: 'blue',
-    title: 'Blue',
-  },
-  {
-    id: 'red',
-    title: 'Red',
-  },
-  {
-    id: 'grey',
-    title: 'Grey',
-  },
-  {
-    id: 'brown',
-    title: 'Brown',
-  },
-];
-
+// interface
 interface FilterForProducts {
-  brand: string;
   discount: string;
   rating: string;
   categories: string;
@@ -166,43 +11,192 @@ interface FilterForProducts {
   color: string;
 }
 
-const SideBar: React.FC = () => {
-  const [filterForProducts, setFilterForProducts] = useState<FilterForProducts>(
-    {
-      brand: '',
-      discount: '',
-      rating: '',
-      categories: '',
-      price: '',
-      color: '',
-    }
-  );
+interface Props {
+  setFilterForProducts: (filterObject: FilterForProducts) => void;
+}
 
-  const [brand, setBrand] = useState<string>('');
+interface CheckBoxList {
+  id: string;
+  title: string;
+  isChoosen: boolean;
+}
+
+const discountOfferList: CheckBoxList[] = [
+  {
+    id: '20',
+    title: '20% Cashback Offer',
+    isChoosen: false,
+  },
+  {
+    id: '5',
+    title: '5% Cashback Offer',
+    isChoosen: false,
+  },
+  {
+    id: '25',
+    title: '25% Cashback Offer',
+    isChoosen: false,
+  },
+];
+
+const ratingItemList: CheckBoxList[] = [
+  {
+    id: '5',
+    title: '5',
+    isChoosen: false,
+  },
+  {
+    id: '4',
+    title: '4',
+    isChoosen: false,
+  },
+  {
+    id: '3',
+    title: '3',
+    isChoosen: false,
+  },
+  {
+    id: '2',
+    title: '2',
+    isChoosen: false,
+  },
+  {
+    id: '1',
+    title: '1',
+    isChoosen: false,
+  },
+];
+
+const categoriesList: CheckBoxList[] = [
+  {
+    id: 'chair',
+    title: 'Chair',
+    isChoosen: false,
+  },
+  {
+    id: 'couch',
+    title: 'Couch',
+    isChoosen: false,
+  },
+  {
+    id: 'table',
+    title: 'Table',
+    isChoosen: false,
+  },
+  {
+    id: 'clock',
+    title: 'Clock',
+    isChoosen: false,
+  },
+];
+
+const priceList: CheckBoxList[] = [
+  {
+    id: '20',
+    title: '$20 - $30',
+    isChoosen: false,
+  },
+  {
+    id: '30',
+    title: '$30 - $40',
+    isChoosen: false,
+  },
+  {
+    id: '40',
+    title: '$40 - $50',
+    isChoosen: false,
+  },
+  {
+    id: '50',
+    title: '$50 - $60',
+    isChoosen: false,
+  },
+  {
+    id: '60',
+    title: '$60 - $70',
+    isChoosen: false,
+  },
+  {
+    id: '70',
+    title: '$70 - $80',
+    isChoosen: false,
+  },
+  {
+    id: '80',
+    title: '$80 - $90',
+    isChoosen: false,
+  },
+  {
+    id: '90',
+    title: '$90 - $100',
+    isChoosen: false,
+  },
+  {
+    id: '100',
+    title: '$100 - $110',
+    isChoosen: false,
+  },
+];
+
+const colorsList: CheckBoxList[] = [
+  {
+    id: 'black',
+    title: 'Black',
+    isChoosen: false,
+  },
+  {
+    id: 'white',
+    title: 'White',
+    isChoosen: false,
+  },
+  {
+    id: 'blue',
+    title: 'Blue',
+    isChoosen: false,
+  },
+  {
+    id: 'red',
+    title: 'Red',
+    isChoosen: false,
+  },
+  {
+    id: 'grey',
+    title: 'Grey',
+    isChoosen: false,
+  },
+  {
+    id: 'brown',
+    title: 'Brown',
+    isChoosen: false,
+  },
+];
+
+const SideBar: React.FC<Props> = ({ setFilterForProducts }) => {
   const [discount, setDiscount] = useState<string>('');
   const [rating, setRating] = useState<string>('');
   const [categories, setCategories] = useState<string>('');
   const [price, setPrice] = useState<string>('');
   const [color, setColor] = useState<string>('');
 
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setFilterForProducts({ discount, rating, categories, price, color });
+    }, 500);
+
+    return () => clearTimeout(timeout);
+  }, [discount, rating, categories, price, color, setFilterForProducts]);
+
   return (
     <div className="w-[23%] py-2 flex flex-col items-start gap-10">
-      {/* PRODUCT BRAND FILTER */}
-      <FilterComponent
-        filterItems={productBrandList}
-        filterTitle={'Product Brand'}
-        isRating={false}
-        isColor={false}
-        setValue={setBrand}
-      />
-
       {/* DISCOUNT OFFER */}
       <FilterComponent
         filterItems={discountOfferList}
         filterTitle={'Discount Offer'}
         isRating={false}
         isColor={false}
+        value={discount}
         setValue={setDiscount}
+        name={'discount'}
       />
 
       {/* Rating item */}
@@ -211,7 +205,9 @@ const SideBar: React.FC = () => {
         filterTitle={'Rating'}
         isRating={true}
         isColor={false}
+        value={rating}
         setValue={setRating}
+        name={'rating'}
       />
 
       {/* Categories */}
@@ -220,7 +216,9 @@ const SideBar: React.FC = () => {
         filterTitle={'Categories'}
         isRating={false}
         isColor={false}
+        value={categories}
         setValue={setCategories}
+        name={'categories'}
       />
 
       {/* Price */}
@@ -229,7 +227,9 @@ const SideBar: React.FC = () => {
         filterTitle={'Price'}
         isRating={false}
         isColor={false}
+        value={price}
         setValue={setPrice}
+        name={'price'}
       />
 
       {/* colors */}
@@ -238,7 +238,9 @@ const SideBar: React.FC = () => {
         filterItems={colorsList}
         isRating={false}
         isColor={true}
+        value={color}
         setValue={setColor}
+        name={'colors'}
       />
     </div>
   );

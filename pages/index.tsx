@@ -14,7 +14,7 @@ import TrendingProducts from '../src/components/Home/TrendingProducts';
 import UniqueFeatures from '../src/components/Home/UniqueFeatures';
 import { shopexOffers } from '../src/data/shopexOffer';
 import { Blog, Product } from '../src/Types';
-import CartModal from '../src/components/Home/CartModal';
+import CartModal from '../src/components/UI/CartModal';
 
 // interface Home props
 interface HomeProps {

@@ -10,8 +10,8 @@ import {
 import { useAppDispatch, useAppSelector } from '../../Store/hooks';
 import { addCart, createCart } from '../../Store/slices/userCart-slice';
 import { Cart, CartProducts } from '../../Types';
-import Modal from '../UI/Modal';
-import CartModalSkeleton from './CartModalSkeleton';
+import Modal from './Modal';
+import CartModalSkeleton from '../Home/CartModalSkeleton';
 
 const CartModal: React.FC<{
   isShowCartModal: boolean;

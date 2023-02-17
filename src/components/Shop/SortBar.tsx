@@ -1,7 +1,13 @@
 import React from 'react';
 import { MdViewList, MdViewModule } from 'react-icons/md';
 
-const SortBar: React.FC = () => {
+interface Props {
+  setView: (type: string) => void;
+  setSort: (type: string) => void;
+  amountOfProduct: number;
+}
+
+const SortBar: React.FC<Props> = ({ setView, setSort, amountOfProduct }) => {
   return (
     <div className="w-full flex items-center justify-between pb-14">
       <div className="w-full">
@@ -9,21 +15,17 @@ const SortBar: React.FC = () => {
           Ecommerce Accesories & Fashion Item
         </h1>
         <span className="text-primaryBlue/40 text-sm font-lato">
-          About 9.8475 results
+          About {amountOfProduct} results
         </span>
       </div>
       <div className="w-full py-2 flex items-center gap-4 ">
         <span className="w-full flex items-center">
-          <label
-            htmlFor="perPage"
-            className="w-[50%] text-sm text-primaryBlue/40 font-lato"
-          >
-            Per Page:{' '}
-          </label>
-          <input
-            id="perPage"
-            className="w-[50%] px-2 py-1 border-[1px] border-black/10 outline-none text-xs"
-          />
+          <span className="w-[50%] text-sm text-primaryBlue/40 font-lato">
+            Per Page:
+          </span>
+          <span className="w-[50%] text-xs text-primaryBlue/40">
+            {amountOfProduct}
+          </span>
         </span>
         <span className="w-full flex items-center">
           <label
@@ -32,18 +34,29 @@ const SortBar: React.FC = () => {
           >
             Sort By:
           </label>
-          <input
+          <select
+            className="w-[50%] px-2 py-1 border-[1px] border-black/10 outline-none text-xs text-primaryBlue/80 font-semibold"
             id="sortBy"
-            className="w-[50%] px-2 py-1 border-[1px] border-black/10 outline-none text-xs"
-          />
+            onChange={(e) => setSort(e.target.value)}
+          >
+            <option value="price">Price (Cheap)</option>
+            <option value="rating">Rating (Big)</option>
+            <option value="date">Date (New)</option>
+          </select>
         </span>
         <span className="w-full flex items-center gap-1">
           <span className="w-[30%] text-sm text-primaryBlue/40 font-lato">
             View:{' '}
           </span>
           <span className="text-sm text-primaryBlue flex w-[70%]">
-            <MdViewModule />
-            <MdViewList />
+            <MdViewModule
+              onClick={() => setView('tile')}
+              className="cursor-pointer"
+            />
+            <MdViewList
+              onClick={() => setView('list')}
+              className="cursor-pointer"
+            />
           </span>
         </span>
       </div>

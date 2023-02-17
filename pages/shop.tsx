@@ -1,11 +1,118 @@
-import { NextPage } from 'next';
+import { GetStaticProps, GetStaticPropsResult, NextPage } from 'next';
 import Head from 'next/head';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ProductsList from '../src/components/Shop/ProductsList';
 import SideBar from '../src/components/Shop/SideBar';
 import SortBar from '../src/components/Shop/SortBar';
+import CartModal from '../src/components/UI/CartModal';
+import {
+  compareByDate,
+  compareByPrice,
+  compareByRating,
+} from '../src/helpers/compareFunction';
+import { useLazyGetProductsQuery } from '../src/Store/apiCalls';
+import { Product } from '../src/Types';
 
-const Shop: NextPage = () => {
+// interface
+interface ShopProps {
+  productsData: Product[];
+}
+
+interface FilterForProducts {
+  discount: string;
+  rating: string;
+  categories: string;
+  price: string;
+  color: string;
+}
+
+// get static props function
+export const getStaticProps: GetStaticProps<ShopProps> = async (): Promise<
+  GetStaticPropsResult<ShopProps> | any
+> => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/products`);
+    if (!res.ok) {
+      throw new Error('Failed to fetch!');
+    }
+    const data = await res.json();
+    return {
+      props: {
+        productsData: data,
+      },
+    };
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const Shop: NextPage<ShopProps> = ({ productsData }) => {
+  // state of filtered Products
+  const [filteredProducts, setFilteredProducts] =
+    useState<Product[]>(productsData);
+
+  // state of filter for Products
+  const [filterForProducts, setFilterForProducts] = useState<FilterForProducts>(
+    {
+      discount: '',
+      rating: '',
+      categories: '',
+      price: '',
+      color: '',
+    }
+  );
+
+  // query for getting filtered products
+  const [getFilteredProducts, { data, isLoading }] = useLazyGetProductsQuery();
+
+  // state of View Products list
+  const [view, setView] = useState<string>('list');
+
+  // state of modalcart
+  const [cartProductId, setCartProductId] = useState<string>('');
+  const [isShowCartModal, setIsShowCartModal] = useState<boolean>(false);
+
+  // state of sort
+  const [sort, setSort] = useState<string>('date');
+
+  // add to cart function
+  const addToCartHandler = (id: string) => {
+    setCartProductId(id);
+    setIsShowCartModal(true);
+  };
+
+  const closeCartModalHandler = () => {
+    setIsShowCartModal(false);
+  };
+
+  // will fetch filtered Products when the filter changes
+  useEffect(() => {
+    const filter = [];
+
+    if (filterForProducts.discount !== '') {
+      filter.push(['discount', filterForProducts.discount]);
+    }
+    if (filterForProducts.rating !== '') {
+      filter.push(['rating', parseInt(filterForProducts.rating)]);
+    }
+    if (filterForProducts.categories !== '') {
+      filter.push(['categories', filterForProducts.categories]);
+    }
+    if (filterForProducts.price !== '') {
+      filter.push(['price', parseInt(filterForProducts.price)]);
+    }
+    if (filterForProducts.color !== '') {
+      filter.push(['color', filterForProducts.color]);
+    }
+
+    getFilteredProducts(Object.fromEntries(filter));
+  }, [filterForProducts, getFilteredProducts]);
+
+  // will change the whole products data with filtered one
+  useEffect(() => {
+    data && !isLoading && setFilteredProducts(data);
+  }, [data, isLoading]);
+
   return (
     <>
       <Head>
@@ -17,13 +124,39 @@ const Shop: NextPage = () => {
 
       <main className="w-full px-10 py-14 flex">
         <section className="w-[1024px] px-12 m-auto">
-          <SortBar />
+          <SortBar
+            setView={setView}
+            setSort={setSort}
+            amountOfProduct={filteredProducts.length}
+          />
           <section className="w-[1024px] m-auto flex justify-between min-h-[80vh]">
-            <SideBar />
-            <ProductsList />
+            <SideBar setFilterForProducts={setFilterForProducts} />
+            <ProductsList
+              view={view}
+              sort={sort}
+              filterForProducts={filterForProducts}
+              addToCart={addToCartHandler}
+              productsData={
+                sort === 'date'
+                  ? [...filteredProducts].sort(compareByDate)
+                  : sort === 'price'
+                  ? [...filteredProducts].sort(compareByPrice)
+                  : sort === 'rating'
+                  ? [...filteredProducts].sort(compareByRating)
+                  : filteredProducts
+              }
+            />
           </section>
         </section>
       </main>
+
+      {isShowCartModal && (
+        <CartModal
+          isShowCartModal={isShowCartModal}
+          id={cartProductId}
+          onClose={closeCartModalHandler}
+        />
+      )}
     </>
   );
 };

@@ -39,6 +39,8 @@ export interface Product {
   colors: string[];
   price: number;
   favourite: number;
+  rating: number;
+  createdAt: Date;
   info: {} | null;
 }
 
