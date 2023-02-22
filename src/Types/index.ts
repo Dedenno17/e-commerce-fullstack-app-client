@@ -46,7 +46,7 @@ export interface Product {
 
 // type products cart
 export interface CartProducts {
-  productsId: string;
+  _id: string;
   title: string;
   color: string;
   image: string;

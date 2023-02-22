@@ -28,26 +28,17 @@ const persistUserConfig = {
   storage,
 };
 
-const persistUserCartConfig = {
-  key: 'userCart',
-  storage,
-};
-
 const persistedAuthReducer = persistReducer(
   persistAuthConfig,
   authStateReducer
 );
 const persistedUserReducer = persistReducer(persistUserConfig, userReducer);
-const persistedUserCartReducer = persistReducer(
-  persistUserCartConfig,
-  userCartReducer
-);
 
 export const store = configureStore({
   reducer: {
     authState: persistedAuthReducer,
     user: persistedUserReducer,
-    userCart: persistedUserCartReducer,
+    userCart: userCartReducer,
     [api.reducerPath]: api.reducer,
   },
   middleware: (getDefaultMiddleware) =>

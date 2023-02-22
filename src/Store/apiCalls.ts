@@ -11,13 +11,21 @@ import {
 
 // interface
 interface GetQueryUserCart {
-  userId?: string;
+  userId?: string | string[] | undefined;
   token?: string;
 }
 interface AddQueryUserCart {
   userId?: string;
   token: string;
   payload: Cart;
+}
+interface UpdateQueryUserCart {
+  userId?: string | string[] | undefined;
+  token?: string;
+  payload: {
+    products: CartProducts[];
+    totalPrice: number;
+  };
 }
 interface FilterForProducts {
   discount: string;
@@ -35,6 +43,7 @@ export const api = createApi({
     'SearchProduct',
     'GetUserCart',
     'CreateUserCart',
+    'UpdateUserCart',
     'AddUserCart',
     'GetProducts',
     'GetSingleProduct',
@@ -93,6 +102,21 @@ export const api = createApi({
       }),
       invalidatesTags: ['CreateUserCart'],
     }),
+    updateUserCart: build.mutation<Cart, Partial<UpdateQueryUserCart>>({
+      query: (arg) => {
+        const { userId, token, payload } = arg;
+        return {
+          url: `/cart/${userId}`,
+          method: 'PUT',
+          body: payload,
+          headers: {
+            'Content-Type': 'application/json ; charset=UTF-8',
+            token: `Bearer ${token}`,
+          },
+        };
+      },
+      invalidatesTags: ['UpdateUserCart'],
+    }),
     addUserCart: build.mutation<Cart, AddQueryUserCart>({
       query: (arg) => {
         const { userId, token, payload } = arg;
@@ -136,8 +160,10 @@ export const {
   useLoginMutation,
   useGetSearchProductQuery,
   useGetUserCartQuery,
+  useLazyGetUserCartQuery,
   useCreateUserCartMutation,
   useAddUserCartMutation,
+  useUpdateUserCartMutation,
   useGetSingleProductQuery,
   useGetBlogsQuery,
   useGetSingleBlogQuery,

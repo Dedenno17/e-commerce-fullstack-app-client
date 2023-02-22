@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import { regisSchema } from '../../schema';
-import { useRegisterMutation } from '../../Store/apiCalls';
+import { useLoginMutation, useRegisterMutation } from '../../Store/apiCalls';
 import { useAppDispatch } from '../../Store/hooks';
 import { setUser } from '../../Store/slices/user-slice';
 import { useRouter } from 'next/router';
@@ -25,6 +25,10 @@ const Register: React.FC<{ setCurrentPage: (page: string) => void }> = ({
   // POST THE DATA FUNCTION
   const [sendData, { isLoading, error, data }] = useRegisterMutation();
 
+  // GET THE DATA USER BY LOGIN
+  const [getDataUser, { data: userData, isLoading: isLoadingUser }] =
+    useLoginMutation();
+
   // SUBMIT FUNCTION
   const submitHandler = (values: Values) => {
     sendData(values);
@@ -44,12 +48,21 @@ const Register: React.FC<{ setCurrentPage: (page: string) => void }> = ({
       onSubmit: submitHandler,
     });
 
+  // login when regis succes
   useEffect(() => {
     if (data) {
-      dispatch(setUser(data));
+      getDataUser({ username: values.username, password: values.password });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
+
+  // move to home when login succes
+  useEffect(() => {
+    if (userData && !isLoadingUser) {
+      dispatch(setUser(userData));
       router.push('/');
     }
-  }, [data, dispatch, router]);
+  }, [userData, dispatch, router, isLoadingUser]);
 
   return (
     <div className="w-1/2 flex flex-col items-center justify-center gap-4 px-10">

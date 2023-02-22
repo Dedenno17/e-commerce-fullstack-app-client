@@ -12,8 +12,11 @@ import { setUser } from '../../Store/slices/user-slice';
 
 const Announcement: React.FC = () => {
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.user.value);
   const router = useRouter();
+
+  // global state
+  const user = useAppSelector((state) => state.user.value);
+  const userCart = useAppSelector((state) => state.userCart.value);
 
   // function move to login
   const loginHandler = () => {
@@ -127,7 +130,14 @@ const Announcement: React.FC = () => {
             </span>
             {/* CART MENU */}
             <Link href={`/cart/${user.others._id}`}>
-              <BsCart3 />
+              <span className="relative flex">
+                <BsCart3 className="m-auto" />
+                {userCart.products.length !== 0 && (
+                  <span className=" px-[0.3rem] bg-primaryPink rounded-full absolute -top-2 -right-3 flex items-center justify-center text-[0.55rem]">
+                    {userCart.products.length}
+                  </span>
+                )}
+              </span>
             </Link>
           </div>
         </div>

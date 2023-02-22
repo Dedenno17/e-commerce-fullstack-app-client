@@ -59,7 +59,7 @@ const CartModal: React.FC<{
 
     if (user && dataProduct) {
       const newCartProduct: CartProducts = {
-        productsId: dataProduct._id,
+        _id: dataProduct._id,
         title: dataProduct.title,
         color: colorProduct,
         image: dataProduct.img,
@@ -101,7 +101,7 @@ const CartModal: React.FC<{
   useEffect(() => {
     if (dataNewUserCart && !isLoadingNewUserCart && user) {
       dispatch(createCart(dataNewUserCart));
-      router.push(`/cart/${user.others._id}`);
+      onClose();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataNewUserCart, isLoadingNewUserCart]);
@@ -114,7 +114,7 @@ const CartModal: React.FC<{
         token: user.accesToken,
         payload: userCart,
       });
-      router.push(`/cart/${user?.others._id}`);
+      onClose();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAddedCart]);
