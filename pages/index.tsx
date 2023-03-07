@@ -62,6 +62,7 @@ export const getStaticProps: GetStaticProps<HomeProps> = async (): Promise<
       productsData,
       blogsData,
     },
+    revalidate: 1,
   };
 };
 

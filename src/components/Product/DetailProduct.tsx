@@ -3,6 +3,11 @@ import { AiFillInstagram } from 'react-icons/ai';
 import { BsStarFill } from 'react-icons/bs';
 import { ImFacebook, ImTwitter } from 'react-icons/im';
 import { MdOutlineFavoriteBorder } from 'react-icons/md';
+import {Product} from "../../Types";
+
+interface Props {
+  productDetail: Product;
+}
 
 interface SocialMedia {
   id: string;
@@ -28,7 +33,7 @@ const socialMedia: SocialMedia[] = [
   },
 ];
 
-const DetailProduct: React.FC = () => {
+const DetailProduct: React.FC<Props> = ({productDetail}) => {
   return (
     <div className="w-[1024px] min-h-[28rem] shadow-simetri p-4 m-auto flex items-stretch">
       <div className="w-full flex items-stretch gap-8">
