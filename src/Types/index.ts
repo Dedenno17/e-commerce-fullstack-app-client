@@ -71,3 +71,10 @@ export interface Blog {
   categories: string[];
   createdAt: any;
 }
+
+// type related products
+export interface RelatedProducts {
+  _id: string;
+  productId: string;
+  relatedProducts: Product[];
+}

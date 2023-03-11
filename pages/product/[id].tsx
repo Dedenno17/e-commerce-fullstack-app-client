@@ -6,13 +6,11 @@ import {
   NextPage,
 } from 'next';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import React from 'react';
 import DetailProduct from '../../src/components/Product/DetailProduct';
 import InfoProduct from '../../src/components/Product/InfoProduct';
 import RelatedProduct from '../../src/components/Product/RelatedProduct';
 import { Product } from '../../src/Types';
-import { useGetSingleProductQuery } from '../../src/Store/apiCalls';
 import { ParsedUrlQuery } from 'querystring';
 
 interface ProductDetailsProps {
@@ -68,7 +66,6 @@ export const getStaticProps: GetStaticProps<ProductDetailsProps> = async (
 };
 
 const ProductDetails: NextPage<ProductDetailsProps> = ({ productDetail }) => {
-  console.log(productDetail);
   return (
     <>
       <Head>

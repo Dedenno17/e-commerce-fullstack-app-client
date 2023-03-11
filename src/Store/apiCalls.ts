@@ -7,6 +7,7 @@ import {
   Cart,
   CartProducts,
   Blog,
+  RelatedProducts,
 } from '../Types';
 
 // interface
@@ -47,6 +48,7 @@ export const api = createApi({
     'AddUserCart',
     'GetProducts',
     'GetSingleProduct',
+    'GetRelatedProducts',
     'GetBlogs',
     'GetSingleBlog',
   ],
@@ -144,6 +146,10 @@ export const api = createApi({
       query: (id) => `/products/find/${id}`,
       providesTags: ['GetSingleProduct'],
     }),
+    getRelatedProducts: build.query<RelatedProducts, string>({
+      query: (productId) => `/products/similar/${productId}`,
+      providesTags: ['GetRelatedProducts'],
+    }),
     getBlogs: build.query<Blog[], Partial<Blog>>({
       query: () => `/blogs`,
       providesTags: ['GetBlogs'],
@@ -165,6 +171,7 @@ export const {
   useAddUserCartMutation,
   useUpdateUserCartMutation,
   useGetSingleProductQuery,
+  useGetRelatedProductsQuery,
   useGetBlogsQuery,
   useGetSingleBlogQuery,
   useLazyGetProductsQuery,

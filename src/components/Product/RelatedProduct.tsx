@@ -6,7 +6,7 @@ import 'swiper/css';
 import 'swiper/css/autoplay';
 import 'swiper/css/a11y';
 
-import { Product, productsData } from '../../data/productsData';
+import { productsData, Product } from '../../data/productsData';
 import Image from 'next/image';
 import { BsStarFill } from 'react-icons/bs';
 
@@ -47,7 +47,7 @@ const RelatedProduct: React.FC = () => {
                 <span className="flex gap-1">
                   {[1, 2, 3, 4, 5].map((star: number) => (
                     <BsStarFill
-                      key={star + star * star + ''}
+                      key={Math.random() + star + ''}
                       className="text-[#D0A32D] text-xs"
                     />
                   ))}

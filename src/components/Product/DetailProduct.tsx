@@ -1,9 +1,18 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { AiFillInstagram } from 'react-icons/ai';
-import { BsStarFill } from 'react-icons/bs';
+import { BsStarFill, BsStar } from 'react-icons/bs';
 import { ImFacebook, ImTwitter } from 'react-icons/im';
 import { MdOutlineFavoriteBorder } from 'react-icons/md';
-import {Product} from "../../Types";
+import { Cart, CartProducts, Product } from '../../Types';
+import Image from 'next/image';
+import { useAppDispatch, useAppSelector } from '../../Store/hooks';
+import { useRouter } from 'next/router';
+import {
+  useAddUserCartMutation,
+  useCreateUserCartMutation,
+  useGetUserCartQuery,
+} from '../../Store/apiCalls';
+import { addCart, createCart } from '../../Store/slices/userCart-slice';
 
 interface Props {
   productDetail: Product;
@@ -33,78 +42,195 @@ const socialMedia: SocialMedia[] = [
   },
 ];
 
-const DetailProduct: React.FC<Props> = ({productDetail}) => {
+const DetailProduct: React.FC<Props> = ({ productDetail }) => {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+
+  // global state
+  const user = useAppSelector((state) => state.user.value);
+  const userCart = useAppSelector((state) => state.userCart.value);
+
+  // state of addedcart
+  const [isAddedCart, setIsAddedCart] = useState<boolean>(false);
+
+  // state of colors
+  const [colorProduct, setColorProduct] = useState<string>('');
+  const [colorProductError, setColorProductError] = useState<boolean>(false);
+
+  // get user cart from server
+  const { data: dataUserCart } = useGetUserCartQuery({
+    userId: user?.others._id,
+    token: user?.accesToken,
+  });
+
+  // create user cart in server
+  const [
+    createUserCartInServer,
+    { data: dataNewUserCart, isLoading: isLoadingNewUserCart },
+  ] = useCreateUserCartMutation();
+
+  // add user cart in server
+  const [addUserCartInServer, ,] = useAddUserCartMutation();
+
+  // function to added cart
+  const addToCartHandler = () => {
+    // if user hasnt login
+    if (!user) {
+      router.push('/authentication');
+      return;
+    }
+
+    // if user has login
+    if (user && productDetail) {
+      // create cart
+      const newCartProduct: CartProducts = {
+        _id: productDetail._id,
+        title: productDetail.title,
+        color: colorProduct,
+        image: productDetail.img,
+        price: productDetail.price,
+        quantity: 1,
+      };
+
+      let productsCart = [];
+      productsCart.push(newCartProduct);
+
+      const newCart: Cart = {
+        userId: user.others._id,
+        products: productsCart,
+        totalPrice: productsCart[0].quantity * productsCart[0].price,
+      };
+
+      // if colors hasnt picked yet
+      if (colorProduct === '') {
+        setColorProductError(true);
+        return;
+      }
+
+      // check if user hasnt cart in server then create one
+      if (!dataUserCart) {
+        createUserCartInServer(newCart);
+        return;
+      }
+
+      // check if user has cart in server then attach it
+      if (dataUserCart) {
+        dispatch(addCart({ product: newCartProduct }));
+        setIsAddedCart(true);
+        return;
+      }
+    }
+  };
+
+  // run when success create a new cart
+  useEffect(() => {
+    if (dataNewUserCart && !isLoadingNewUserCart && user) {
+      dispatch(createCart(dataNewUserCart));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dataNewUserCart, isLoadingNewUserCart]);
+
+  // run when added a new cart
+  useEffect(() => {
+    if (isAddedCart && user) {
+      addUserCartInServer({
+        userId: user.others._id,
+        token: user.accesToken,
+        payload: userCart,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAddedCart]);
+
   return (
     <div className="w-[1024px] min-h-[28rem] shadow-simetri p-4 m-auto flex items-stretch">
       <div className="w-full flex items-stretch gap-8">
         {/* IMAGE */}
         <div className="w-1/2 flex">
-          {/* <div className='w-full h-full relative'></div> */}
-          <img
-            src="https://images.unsplash.com/photo-1549187774-b4e9b0445b41?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
-            alt="couch"
-            className="object-fit"
-          />
+          <div className="w-full h-full relative">
+            <Image
+              src={productDetail.img}
+              alt={productDetail.title}
+              fill
+              sizes="true"
+              priority
+            />
+          </div>
         </div>
         {/* DESC */}
         <div className="w-1/2 flex flex-col justify-center gap-4">
           <h1 className="text-4xl text-primaryNavyBlue font-josefin font-bold">
-            Friends Couch
+            {productDetail.title}
           </h1>
-
+          {/* RATING */}
           <span className="flex items-center gap-1">
             {[1, 2, 3, 4, 5].map((rat: number) => (
-              <BsStarFill key={rat} className="text-[#D0A32D] text-xs" />
+              <span key={rat + Math.random() + ''}>
+                {rat <= productDetail.rating && (
+                  <BsStarFill className="text-[#D0A32D] text-xs" />
+                )}
+                {rat > productDetail.rating && (
+                  <BsStar className="text-[#D0A32D] text-xs" />
+                )}
+              </span>
             ))}
-            <p className="text-xs text-primaryBlue"> (22)</p>
+            <p className="text-xs text-primaryBlue">
+              {' '}
+              {`(${productDetail.rating})`}
+            </p>
           </span>
-
+          {/* PRICE */}
           <span className="text-sm text-primaryBlue font-bold font-josefin">
-            $84.2
+            ${productDetail.price}
           </span>
-
+          {/* COLORS */}
           <span className="text-sm font-josefin font-bold text-primaryNavyBlue flex items-center gap-6">
             <h3 className="text-sm text-primaryBlue font-bold font-josefin">
               Color :
             </h3>
             <ul className="flex items-center gap-1">
-              {['1', '2', '3', '4'].map((col: string, i: number) => (
+              {productDetail.colors.map((col: string, i: number) => (
                 <div
-                  className="w-3 h-3 rounded-full border-[1px] border-black/20 bg-primaryPurple"
-                  key={i + i + ''}
-                  //   style={{ backgroundColor: `${col}` }}
+                  className={`w-3 h-3 rounded-full cursor-pointer ${
+                    colorProduct === col
+                      ? 'border-black/80 border-[2px]'
+                      : 'border-black/20 border-[1px]'
+                  }`}
+                  key={Math.random() + i + ''}
+                  style={{ backgroundColor: `${col}` }}
+                  onClick={() => {
+                    setColorProduct(col);
+                    setColorProductError(false);
+                  }}
                 />
               ))}
             </ul>
           </span>
-
+          {/* PRODUCT DESC */}
           <p className="text-sm text-lato text-primaryBlue/50">
-            Lorem Ipsum risus ultricies tristique nulla aliquet enim tortor at
-            auctor urna nunc id cursus metus aliquam eleifend mi in nulla
-            posuere
+            {productDetail.description}
           </p>
-
+          {/* CATEGORIES */}
           <span className="text-sm  text-primaryNavyBlue flex items-center gap-6">
             <h3 className="text-sm text-primaryBlue font-bold font-josefin">
               Categories :
             </h3>
             <ul className="flex items-center gap-1">
-              {['Men', 'Brown', 'Couch', 'Double-seat'].map(
-                (col: string, i: number) => (
-                  <p
-                    key={col}
-                    className="text-sm text-lato text-primaryBlue/50"
-                  >
-                    {col},
-                  </p>
-                )
-              )}
+              {productDetail.categories.map((cat: string, i: number) => (
+                <p
+                  key={Math.random() + i + ''}
+                  className="text-sm text-lato text-primaryBlue/50"
+                >
+                  {cat},
+                </p>
+              ))}
             </ul>
           </span>
-
+          {/* BUTTON */}
           <div className="flex items-center gap-4">
             <button
               type="button"
+              onClick={addToCartHandler}
               className="px-6 py-2 bg-transparent border-[1px] border-primaryBlue/10 text-sm text-primaryBlue font-josefin font-bold hover:bg-primaryPink hover:text-primarySkyBlue"
             >
               Add to Cart
@@ -113,7 +239,7 @@ const DetailProduct: React.FC<Props> = ({productDetail}) => {
               <MdOutlineFavoriteBorder />
             </span>
           </div>
-
+          {/* SOCIAL MEDIA */}
           <span className="flex items-center gap-6 w-full">
             <h3 className="text-sm text-primaryBlue font-bold font-josefin">
               Share :
@@ -129,6 +255,12 @@ const DetailProduct: React.FC<Props> = ({productDetail}) => {
               ))}
             </ul>
           </span>
+          {/* ERROR MESSAGE */}
+          {colorProductError && (
+            <span className="w-full text-left text-xs text-primaryRed font-lato font-semibold p-2">
+              You have to pick one color
+            </span>
+          )}
         </div>
       </div>
     </div>
