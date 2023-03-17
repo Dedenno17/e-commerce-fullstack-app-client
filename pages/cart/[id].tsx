@@ -31,7 +31,7 @@ const Cart: NextPage = () => {
   const [updateUserCart, { error }] = useUpdateUserCartMutation();
 
   useEffect(() => {
-    if (user) {
+    if (user && id) {
       updateUserCart({
         userId: id,
         token: user.accesToken,

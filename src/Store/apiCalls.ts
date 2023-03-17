@@ -8,6 +8,7 @@ import {
   CartProducts,
   Blog,
   RelatedProducts,
+  Order,
 } from '../Types';
 
 // interface
@@ -35,6 +36,9 @@ interface FilterForProducts {
   price: number;
   color: string;
 }
+interface PaymentIntent {
+  clientSecret?: string;
+}
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_BASE_URL }),
@@ -51,6 +55,8 @@ export const api = createApi({
     'GetRelatedProducts',
     'GetBlogs',
     'GetSingleBlog',
+    'CreatePaymentIntent',
+    'CreateOrder',
   ],
   endpoints: (build) => ({
     register: build.mutation<User, Partial<Register>>({
@@ -158,6 +164,28 @@ export const api = createApi({
       query: (id) => `/blogs/${id}`,
       providesTags: ['GetSingleBlog'],
     }),
+    createPaymentIntent: build.mutation<PaymentIntent, Partial<Order>>({
+      query: (order) => ({
+        url: '/paymentIntent',
+        method: 'POST',
+        body: order,
+        headers: {
+          'Content-type': 'application/json ; charset=UTF-8',
+        },
+      }),
+      invalidatesTags: ['CreatePaymentIntent'],
+    }),
+    createOrder: build.mutation<Order, Partial<Order>>({
+      query: (order) => ({
+        url: '/order/create',
+        method: 'POST',
+        body: order,
+        headers: {
+          'Content-type': 'application/json ; charset=UTF-8',
+        },
+      }),
+      invalidatesTags: ['CreateOrder'],
+    }),
   }),
 });
 
@@ -175,4 +203,6 @@ export const {
   useGetBlogsQuery,
   useGetSingleBlogQuery,
   useLazyGetProductsQuery,
+  useCreatePaymentIntentMutation,
+  useCreateOrderMutation,
 } = api;

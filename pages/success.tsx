@@ -4,8 +4,10 @@ import React from 'react';
 import { GiCheckMark } from 'react-icons/gi';
 import { FcClock } from 'react-icons/fc';
 import { FaClipboardList } from 'react-icons/fa';
+import { useRouter } from 'next/router';
 
 const OrderCompleted: NextPage = () => {
+  const router = useRouter();
   return (
     <>
       <Head>
@@ -29,7 +31,10 @@ const OrderCompleted: NextPage = () => {
               be completed within 3-6 hours. You will receive an email
               confirmation when you order is completed
             </p>
-            <button className="text-lg font-josefin text-primarySkyBlue py-3 px-6 bg-primaryPink border-none outline-none cursor-pointer hover:brightness-90">
+            <button
+              className="text-lg font-josefin text-primarySkyBlue py-3 px-6 bg-primaryPink border-none outline-none cursor-pointer hover:brightness-90"
+              onClick={() => router.push('/shop')}
+            >
               Continue Shopping
             </button>
 
