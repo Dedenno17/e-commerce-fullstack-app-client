@@ -6,13 +6,18 @@ import {
   IoCaretForwardSharp,
   IoCreate,
 } from 'react-icons/io5';
-import { blogsData, Blog } from '../../data/blogData';
+import { createdAtFormat } from '../../helpers/createdAtFormat';
+import { Blog } from '../../Types';
 
-const ContentBlogs: React.FC = () => {
+interface Props {
+  blogsData: Blog[];
+}
+
+const ContentBlogs: React.FC<Props> = ({ blogsData }) => {
   return (
     <div className="w-[75%] flex flex-col gap-8">
       {blogsData.map((item: Blog) => (
-        <div className="w-full flex flex-col gap-4" key={item.id}>
+        <div className="w-full flex flex-col gap-4" key={item._id}>
           {/* IMAGE */}
           <div className="relative w-full h-[24rem]">
             <Image src={item.img} alt="blog" fill sizes="true" priority />
@@ -29,7 +34,7 @@ const ContentBlogs: React.FC = () => {
             <span className="flex items-center gap-2">
               <IoCalendarClearSharp className="text-xs text-[#FCDCAF]" />
               <span className="px-6 py-[0.1rem] text-primaryNavyBlue text-xs font-josefin font-bold bg-[#FCDCAF]/40">
-                {item.createdAt}
+                {createdAtFormat(item.createdAt)}
               </span>
             </span>
           </div>

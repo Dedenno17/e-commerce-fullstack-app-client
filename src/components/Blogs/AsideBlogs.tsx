@@ -1,10 +1,18 @@
 import Image from 'next/image';
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { AiFillInstagram } from 'react-icons/ai';
 import { FiSearch } from 'react-icons/fi';
 import { ImFacebook, ImTwitter } from 'react-icons/im';
-import { Blog, blogsData } from '../../data/blogData';
-import { Product, productsData } from '../../data/productsData';
+import { createdAtFormat } from '../../helpers/createdAtFormat';
+import { Blog, Product } from '../../Types';
+import { useGetAllProductQuery } from '../../Store/apiCalls';
+
+interface Props {
+  blogsData: Blog[];
+  filterCategory: string;
+  setFilterCategory: (cat: string) => void;
+  setFilterTitle: (tit: string) => void;
+}
 
 interface SocialMedia {
   id: string;
@@ -34,7 +42,44 @@ const socialMedia: SocialMedia[] = [
   },
 ];
 
-const AsideBlogs: React.FC = () => {
+const categories: string[] = [
+  'Fashion',
+  'Men',
+  'Science',
+  'Sport',
+  'Technology',
+  'Women',
+];
+
+const AsideBlogs: React.FC<Props> = ({
+  blogsData,
+  filterCategory,
+  setFilterCategory,
+  setFilterTitle,
+}) => {
+  // get all product
+  const { data: productsData } = useGetAllProductQuery(undefined);
+
+  // state of search value
+  const [searchValue, setSearchValue] = useState<string>('');
+
+  // change filter title when typing search
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setFilterTitle(searchValue);
+    }, 300);
+
+    return () => clearTimeout(timeout);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchValue]);
+
+  // change filter title when submit
+  const submitSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    setFilterTitle(searchValue);
+  };
+
   return (
     <div className="w-[25%] flex flex-col gap-8">
       {/* SEARCH */}
@@ -42,11 +87,16 @@ const AsideBlogs: React.FC = () => {
         <h2 className="text-md text-primaryNavyBlue font-josefin font-bold">
           Search
         </h2>
-        <form className="w-full flex items-center border-[1px] border-black/10">
+        <form
+          className="w-full flex items-center border-[1px] border-black/10"
+          onSubmit={submitSearch}
+        >
           <input
             type="text"
             placeholder="Search ..."
             className="py-2 px-3 w-[80%] text-xs font-lato outline-none border-none"
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
           />
           <button
             type="submit"
@@ -63,16 +113,17 @@ const AsideBlogs: React.FC = () => {
           Categories
         </h2>
         <div className="w-full grid grid-cols-2 gap-2">
-          {[1, 2, 3, 4, 5, 6].map((item: number) => (
+          {categories.map((item: string, i: number) => (
             <span
-              key={Math.random() + item}
+              key={Math.random() + i + ''}
               className={`text-xs font-josefin font-bold p-2 cursor-pointer ${
-                item === 1
+                item === filterCategory
                   ? 'bg-primaryPink text-primarySkyBlue'
                   : 'bg-transparent text-primaryNavyBlue'
               }`}
+              onClick={() => setFilterCategory(item)}
             >
-              Women (20)
+              {item}
             </span>
           ))}
         </div>
@@ -85,7 +136,7 @@ const AsideBlogs: React.FC = () => {
         </h2>
         <ul className="w-full flex flex-col gap-6">
           {blogsData.map((item: Blog) => (
-            <li key={item.id} className="w-full flex items-center gap-2">
+            <li key={item._id} className="w-full flex items-center gap-2">
               <div className="w-[35%] h-14 relative">
                 <Image
                   src={item.img}
@@ -100,7 +151,7 @@ const AsideBlogs: React.FC = () => {
                   {item.title}
                 </h3>
                 <span className="text-[0.65rem] text-primaryBlue/40 font-lato">
-                  {item.createdAt}
+                  {createdAtFormat(item.createdAt)}
                 </span>
               </div>
             </li>
@@ -114,27 +165,28 @@ const AsideBlogs: React.FC = () => {
           Offer Products
         </h2>
         <ul className="w-full grid grid-cols-2 gap-4">
-          {productsData.slice(0, 4).map((item: Product) => (
-            <li key={item.id} className="flex flex-col gap-2">
-              <div className="w-full h-20 relative bg-primarySkyBlue">
-                <Image
-                  src={item.img}
-                  alt={item.title}
-                  fill
-                  sizes="true"
-                  priority
-                />
-              </div>
-              <div className="w-full flex flex-col items-center gap-1">
-                <h3 className="text-[10px] text-center text-primaryNavyBlue font-josefin font-bold">
-                  {item.title}
-                </h3>
-                <span className="text-[10px] text-primaryBlue/40 font-lato">
-                  ${item.price.toFixed(1)}
-                </span>
-              </div>
-            </li>
-          ))}
+          {productsData &&
+            productsData.slice(0, 4).map((item: Product) => (
+              <li key={item._id} className="flex flex-col gap-2">
+                <div className="w-full h-20 relative bg-primarySkyBlue">
+                  <Image
+                    src={item.img}
+                    alt={item.title}
+                    fill
+                    sizes="true"
+                    priority
+                  />
+                </div>
+                <div className="w-full flex flex-col items-center gap-1">
+                  <h3 className="text-[10px] text-center text-primaryNavyBlue font-josefin font-bold">
+                    {item.title}
+                  </h3>
+                  <span className="text-[10px] text-primaryBlue/40 font-lato">
+                    ${item.price.toFixed(1)}
+                  </span>
+                </div>
+              </li>
+            ))}
         </ul>
       </div>
 

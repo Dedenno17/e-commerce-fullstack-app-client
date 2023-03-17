@@ -51,6 +51,7 @@ export const api = createApi({
     'UpdateUserCart',
     'AddUserCart',
     'GetProducts',
+    'GetAllProduct',
     'GetSingleProduct',
     'GetRelatedProducts',
     'GetBlogs',
@@ -156,7 +157,11 @@ export const api = createApi({
       query: (productId) => `/products/similar/${productId}`,
       providesTags: ['GetRelatedProducts'],
     }),
-    getBlogs: build.query<Blog[], Partial<Blog>>({
+    getAllProduct: build.query<Product[], undefined>({
+      query: () => `/products`,
+      providesTags: ['GetAllProduct'],
+    }),
+    getBlogs: build.query<Blog[], undefined>({
       query: () => `/blogs`,
       providesTags: ['GetBlogs'],
     }),
@@ -203,6 +208,7 @@ export const {
   useGetBlogsQuery,
   useGetSingleBlogQuery,
   useLazyGetProductsQuery,
+  useGetAllProductQuery,
   useCreatePaymentIntentMutation,
   useCreateOrderMutation,
 } = api;

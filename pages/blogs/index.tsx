@@ -1,10 +1,66 @@
-import { NextPage } from 'next';
+import { GetStaticProps, GetStaticPropsResult, NextPage } from 'next';
 import Head from 'next/head';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import AsideBlogs from '../../src/components/Blogs/AsideBlogs';
 import ContentBlogs from '../../src/components/Blogs/ContentBlogs';
+import { Blog } from '../../src/Types';
 
-const Blogs: NextPage = () => {
+interface BlogsProps {
+  blogsData: Blog[];
+}
+
+// get static function
+export const getStaticProps: GetStaticProps<BlogsProps> = async (): Promise<
+  GetStaticPropsResult<BlogsProps> | any
+> => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/blogs`);
+    if (!res.ok) {
+      throw new Error();
+    }
+    const data = await res.json();
+    return {
+      props: {
+        blogsData: data,
+      },
+    };
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const Blogs: NextPage<BlogsProps> = ({ blogsData }) => {
+  // state of blogs
+  const [filteredBlogs, setFilteredBlogs] = useState<Blog[]>(blogsData);
+
+  // state of category filter
+  const [filterCategory, setFilterCategory] = useState<string>('');
+
+  // state of title filter
+  const [filterTitle, setFilterTitle] = useState<string>('');
+
+  // change flteredBlogs when filter title & category changing
+  useEffect(() => {
+    const filteredData = blogsData.filter((blo: Blog) => {
+      if (!filterCategory && !filterTitle) {
+        return blo;
+      } else if (filterCategory && filterTitle) {
+        return (
+          blo.categories.includes(filterCategory) &&
+          blo.title.includes(filterTitle)
+        );
+      } else if (filterCategory) {
+        return blo.categories.includes(filterCategory);
+      } else if (filterTitle) {
+        return blo.title.includes(filterTitle);
+      }
+    });
+
+    setFilteredBlogs(filteredData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterCategory, filterTitle]);
+
+  console.log(blogsData);
   return (
     <>
       <Head>
@@ -17,8 +73,13 @@ const Blogs: NextPage = () => {
       <main>
         <section className="w-full min-h-screen py-14 flex">
           <div className="w-[1024px] m-auto min-h-[32rem] flex items-stretch gap-10">
-            <ContentBlogs />
-            <AsideBlogs />
+            <ContentBlogs blogsData={filteredBlogs} />
+            <AsideBlogs
+              blogsData={blogsData}
+              filterCategory={filterCategory}
+              setFilterCategory={setFilterCategory}
+              setFilterTitle={setFilterTitle}
+            />
           </div>
         </section>
       </main>
