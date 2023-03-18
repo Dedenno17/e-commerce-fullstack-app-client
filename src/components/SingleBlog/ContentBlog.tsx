@@ -8,7 +8,8 @@ import {
 } from 'react-icons/ai';
 import { BsStarFill } from 'react-icons/bs';
 import { ImFacebook, ImTwitter } from 'react-icons/im';
-import { Product, productsData } from '../../data/productsData';
+import { useGetAllProductQuery } from '../../Store/apiCalls';
+import { Product } from '../../Types';
 
 interface SocialMedia {
   id: string;
@@ -38,7 +39,13 @@ const socialMedia: SocialMedia[] = [
   },
 ];
 
+// get random number
+const randomIndex = Math.round(Math.random() * (20 - 0) + 0);
+
 const ContentBlog: React.FC = () => {
+  // get all products
+  const { data: productsData } = useGetAllProductQuery(undefined);
+
   return (
     <div className="w-full flex flex-col gap-6">
       <h1 className="text-lg font-josefin font-bold text-primaryNavyBlue">
@@ -68,7 +75,7 @@ const ContentBlog: React.FC = () => {
         tortor at auctor urna nunc id cursus metus aliquam eleifend mi in nulla
         posuere sollicitudin aliquam ultrices sagittis orci
       </p>
-      <div className="w-full flex items-stretch gap-8 h-[14rem]">
+      <div className="w-full flex items-stretch gap-8 h-[20rem]">
         <div className="relative w-full h-full">
           <Image src="/blog-img.jpg" alt="blog" fill sizes="true" priority />
         </div>
@@ -89,39 +96,42 @@ const ContentBlog: React.FC = () => {
         posuere sollicitudin aliquam ultrices sagittis orci
       </p>
       <ul className="w-full flex items-stretch h-[14rem] justify-between gap-4">
-        {productsData.slice(8, 12).map((item: Product) => (
-          <li key={item.id} className="w-1/4 flex flex-col gap-4">
-            <div className="flex w-full h-[80%] p-4 bg-primarySkyBlue">
-              <div className="relative m-auto w-full h-full">
-                <Image
-                  src={item.img}
-                  alt={item.title}
-                  fill
-                  sizes="true"
-                  priority
-                />
-              </div>
-            </div>
-            <div className="flex flex-col gap-2 w-full h-[20%]">
-              <h3 className="text-sm text-primaryNavyBlue font-josefin font-bold">
-                {item.title}
-              </h3>
-              <span className="flex items-center w-full justify-between">
-                <span className="text-xs font-lato text-primaryBlue/40">
-                  ${item.price.toFixed(1)}
-                </span>
-                <span className="flex gap-1">
-                  {[1, 2, 3, 4, 5].map((star: number) => (
-                    <BsStarFill
-                      key={star + star * star + ''}
-                      className="text-[#D0A32D] text-xs"
+        {productsData &&
+          productsData
+            .slice(randomIndex, randomIndex + 4)
+            .map((item: Product) => (
+              <li key={item._id} className="w-1/4 flex flex-col gap-4">
+                <div className="flex w-full h-[80%] p-4 bg-primarySkyBlue">
+                  <div className="relative m-auto w-full h-full">
+                    <Image
+                      src={item.img}
+                      alt={item.title}
+                      fill
+                      sizes="true"
+                      priority
                     />
-                  ))}
-                </span>
-              </span>
-            </div>
-          </li>
-        ))}
+                  </div>
+                </div>
+                <div className="flex flex-col gap-2 w-full h-[20%]">
+                  <h3 className="text-sm text-primaryNavyBlue font-josefin font-bold">
+                    {item.title}
+                  </h3>
+                  <span className="flex items-center w-full justify-between">
+                    <span className="text-xs font-lato text-primaryBlue/40">
+                      ${item.price.toFixed(1)}
+                    </span>
+                    <span className="flex gap-1">
+                      {[1, 2, 3, 4, 5].map((star: number) => (
+                        <BsStarFill
+                          key={star + star * star + ''}
+                          className="text-[#D0A32D] text-xs"
+                        />
+                      ))}
+                    </span>
+                  </span>
+                </div>
+              </li>
+            ))}
       </ul>
       <p className="text-xs text-primaryBlue/40 font-lato">
         risus ultricies tristique nulla aliquet enim tortor at auctor urna nunc

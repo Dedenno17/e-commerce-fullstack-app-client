@@ -47,7 +47,7 @@ const ContentBlogs: React.FC<Props> = ({ blogsData }) => {
             <p className="text-xs text-primaryBlue/40 font-lato">
               {item.content.slice(0, 200) + ' ...'}
             </p>
-            <Link href="/blogs">
+            <Link href={`/blogs/${item._id}`}>
               <p className="text-sm text-primaryNavyBlue font-josefin font-bold hover:text-primaryPink flex items-center gap-2">
                 Read more <IoCaretForwardSharp className="text-sm" />
               </p>

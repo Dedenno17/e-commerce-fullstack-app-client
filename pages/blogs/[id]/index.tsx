@@ -1,10 +1,48 @@
-import { NextPage } from 'next';
+import { GetServerSideProps, GetServerSidePropsResult, NextPage } from 'next';
 import Head from 'next/head';
+import { ParsedUrlQuery } from 'querystring';
 import React from 'react';
-import AsideBlogs from '../../../src/components/Blogs/AsideBlogs';
 import SingleBlog from '../../../src/components/SingleBlog';
+import { Blog } from '../../../src/Types';
 
-const BlogDetails: NextPage = () => {
+interface SingleBlogProps {
+  singleBlogData: Blog;
+}
+
+interface IParams extends ParsedUrlQuery {
+  id: string;
+}
+
+// get server side props function
+export const getServerSideProps: GetServerSideProps<SingleBlogProps> = async (
+  context
+): Promise<GetServerSidePropsResult<SingleBlogProps> | any> => {
+  const { id } = context.params as IParams;
+  context.res.setHeader(
+    'Cache-Control',
+    'public, s-maxage=10, stale-while-revalidate=59'
+  );
+
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/blogs/${id}`);
+    if (!res.ok) {
+      throw new Error();
+    }
+    const data = await res.json();
+
+    return {
+      props: {
+        singleBlogData: data,
+      },
+    };
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const BlogDetails: NextPage<SingleBlogProps> = ({ singleBlogData }) => {
+  console.log(singleBlogData);
+
   return (
     <>
       <Head>
@@ -16,9 +54,8 @@ const BlogDetails: NextPage = () => {
 
       <main>
         <section className="w-full min-h-screen py-14 flex">
-          <div className="w-[1024px] m-auto min-h-[32rem] flex items-stretch gap-10">
-            <SingleBlog />
-            <AsideBlogs />
+          <div className="w-[1024px] m-auto min-h-[32rem]">
+            <SingleBlog singleBlogData={singleBlogData} />
           </div>
         </section>
       </main>

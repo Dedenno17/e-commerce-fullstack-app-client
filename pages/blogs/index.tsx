@@ -1,4 +1,4 @@
-import { GetStaticProps, GetStaticPropsResult, NextPage } from 'next';
+import { GetServerSideProps, GetServerSidePropsResult, NextPage } from 'next';
 import Head from 'next/head';
 import React, { useEffect, useState } from 'react';
 import AsideBlogs from '../../src/components/Blogs/AsideBlogs';
@@ -10,9 +10,9 @@ interface BlogsProps {
 }
 
 // get static function
-export const getStaticProps: GetStaticProps<BlogsProps> = async (): Promise<
-  GetStaticPropsResult<BlogsProps> | any
-> => {
+export const getServerSideProps: GetServerSideProps<
+  BlogsProps
+> = async (): Promise<GetServerSidePropsResult<BlogsProps> | any> => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/blogs`);
     if (!res.ok) {
@@ -23,6 +23,7 @@ export const getStaticProps: GetStaticProps<BlogsProps> = async (): Promise<
       props: {
         blogsData: data,
       },
+      revalidate: 1,
     };
   } catch (err) {
     console.log(err);

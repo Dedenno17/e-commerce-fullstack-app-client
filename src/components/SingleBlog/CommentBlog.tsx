@@ -12,7 +12,7 @@ const CommentBlog: React.FC = () => {
             key={Math.random() + item}
             className="w-full p-4 shadow-simetri flex items-stretch h-[8rem] gap-4"
           >
-            <div className="w-[15%] relative">
+            <div className="w-[10%] relative">
               <Image
                 src="https://i.ibb.co/VMw4b4T/Wavy-Bus-31-Single-02.jpg"
                 alt="profile comment"
@@ -39,7 +39,7 @@ const CommentBlog: React.FC = () => {
         ))}
       </ul>
       <form className="w-full flex flex-col gap-4 text-sm">
-        <div className="w-full flex items-center justify-between">
+        {/* <div className="w-full flex items-center justify-between">
           <div className="border-[1px] border-black/10 flex items-center p-2 w-[40%]">
             <FaUser className="text-black/20" />
             <input
@@ -56,13 +56,12 @@ const CommentBlog: React.FC = () => {
               className="w-[80%] border-none outline-none font-lato px-3"
             />
           </div>
-        </div>
+        </div> */}
         <textarea
           rows={12}
           className="text-sm w-full p-4 font-lato border-[1px] border-black/10 outline-none"
-        >
-          Write your comment
-        </textarea>
+          defaultValue="Write your commen"
+        />
       </form>
     </div>
   );
