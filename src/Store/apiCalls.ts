@@ -56,6 +56,7 @@ export const api = createApi({
     'GetRelatedProducts',
     'GetBlogs',
     'GetSingleBlog',
+    'CreateCommentBlog',
     'CreatePaymentIntent',
     'CreateOrder',
   ],
@@ -169,6 +170,20 @@ export const api = createApi({
       query: (id) => `/blogs/${id}`,
       providesTags: ['GetSingleBlog'],
     }),
+    createCommentBlog: build.mutation<
+      { success: boolean; message: string },
+      { userId: string; blogId: string; value: string }
+    >({
+      query: (args) => ({
+        url: `/blogs/comment/${args.userId}`,
+        method: 'POST',
+        body: { blogId: args.blogId, value: args.value },
+        headers: {
+          'Content-Type': 'application/json ; charset=UTF-8',
+        },
+      }),
+      invalidatesTags: ['CreateCommentBlog'],
+    }),
     createPaymentIntent: build.mutation<PaymentIntent, Partial<Order>>({
       query: (order) => ({
         url: '/paymentIntent',
@@ -207,6 +222,7 @@ export const {
   useGetRelatedProductsQuery,
   useGetBlogsQuery,
   useGetSingleBlogQuery,
+  useCreateCommentBlogMutation,
   useLazyGetProductsQuery,
   useGetAllProductQuery,
   useCreatePaymentIntentMutation,

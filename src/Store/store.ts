@@ -15,6 +15,7 @@ import storage from 'redux-persist/lib/storage';
 import authStateReducer from './slices/authState-slice';
 import userReducer from './slices/user-slice';
 import userCartReducer from './slices/userCart-slice';
+import blogCommentReducer from './slices/blogComment-slice';
 import { api } from './apiCalls';
 
 // PERSIST CONFIG
@@ -39,6 +40,7 @@ export const store = configureStore({
     authState: persistedAuthReducer,
     user: persistedUserReducer,
     userCart: userCartReducer,
+    blogComment: blogCommentReducer,
     [api.reducerPath]: api.reducer,
   },
   middleware: (getDefaultMiddleware) =>

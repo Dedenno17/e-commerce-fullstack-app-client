@@ -61,6 +61,16 @@ export interface Cart {
   totalPrice: number;
 }
 
+// type comment for blog
+export interface commentBlog {
+  _id: string;
+  userId: string;
+  username: string;
+  image: string | null;
+  value: string;
+  date: string;
+}
+
 // type blog
 export interface Blog {
   _id: string;
@@ -69,6 +79,7 @@ export interface Blog {
   content: string;
   img: string;
   categories: string[];
+  comments: commentBlog[];
   createdAt: any;
 }
 

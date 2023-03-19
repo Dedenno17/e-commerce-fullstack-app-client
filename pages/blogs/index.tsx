@@ -23,7 +23,6 @@ export const getServerSideProps: GetServerSideProps<
       props: {
         blogsData: data,
       },
-      revalidate: 1,
     };
   } catch (err) {
     console.log(err);
@@ -61,7 +60,6 @@ const Blogs: NextPage<BlogsProps> = ({ blogsData }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterCategory, filterTitle]);
 
-  console.log(blogsData);
   return (
     <>
       <Head>

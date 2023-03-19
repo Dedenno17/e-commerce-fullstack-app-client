@@ -1,5 +1,6 @@
 import React from 'react';
 import { IoCalendarClearSharp, IoCreate } from 'react-icons/io5';
+import { createdAtFormat } from '../../helpers/createdAtFormat';
 
 const AuthorBlog: React.FC<{ author: string; createdAt: string }> = ({
   author,
@@ -16,7 +17,7 @@ const AuthorBlog: React.FC<{ author: string; createdAt: string }> = ({
       <span className="flex items-center gap-2">
         <IoCalendarClearSharp className="text-xs text-[#FCDCAF]" />
         <span className="px-6 py-[0.1rem] text-primaryNavyBlue text-xs font-josefin font-bold bg-[#FCDCAF]/40">
-          {createdAt}
+          {createdAtFormat(createdAt)}
         </span>
       </span>
     </div>

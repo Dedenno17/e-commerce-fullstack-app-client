@@ -20,7 +20,7 @@ export const getServerSideProps: GetServerSideProps<SingleBlogProps> = async (
   const { id } = context.params as IParams;
   context.res.setHeader(
     'Cache-Control',
-    'public, s-maxage=10, stale-while-revalidate=59'
+    'public, s-maxage=10, stale-while-revalidate=1'
   );
 
   try {
@@ -41,7 +41,6 @@ export const getServerSideProps: GetServerSideProps<SingleBlogProps> = async (
 };
 
 const BlogDetails: NextPage<SingleBlogProps> = ({ singleBlogData }) => {
-  console.log(singleBlogData);
 
   return (
     <>
