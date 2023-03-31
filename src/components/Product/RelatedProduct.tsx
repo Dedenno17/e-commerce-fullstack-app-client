@@ -6,11 +6,15 @@ import 'swiper/css';
 import 'swiper/css/autoplay';
 import 'swiper/css/a11y';
 
-import { productsData, Product } from '../../data/productsData';
 import Image from 'next/image';
 import { BsStarFill } from 'react-icons/bs';
+import { useGetAllProductQuery } from '../../Store/apiCalls';
+import { Product } from '../../Types';
 
 const RelatedProduct: React.FC = () => {
+  // fetch all product data
+  const { data } = useGetAllProductQuery(undefined);
+
   return (
     <div className="w-[1024px] flex flex-col gap-6">
       <h1 className="text-3xl text-primaryNavyBlue font-josefin font-bold mb-8 text-left">
@@ -28,8 +32,8 @@ const RelatedProduct: React.FC = () => {
         loop
         className="w-[90%]"
       >
-        {productsData.slice(0, 4).map((item: Product) => (
-          <SwiperSlide key={item.id}>
+        {data?.slice(0, 4).map((item: Product) => (
+          <SwiperSlide key={item._id}>
             <div className="h-64 flex flex-col">
               <div className="relative w-full h-[80%] bg-primarySkyBlue">
                 <Image
