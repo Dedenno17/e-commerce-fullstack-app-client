@@ -16,6 +16,7 @@ import authStateReducer from './slices/authState-slice';
 import userReducer from './slices/user-slice';
 import userCartReducer from './slices/userCart-slice';
 import blogCommentReducer from './slices/blogComment-slice';
+import wishlistReducer from './slices/wishlist-slice';
 import { api } from './apiCalls';
 
 // PERSIST CONFIG
@@ -41,6 +42,7 @@ export const store = configureStore({
     user: persistedUserReducer,
     userCart: userCartReducer,
     blogComment: blogCommentReducer,
+    wishlist: wishlistReducer,
     [api.reducerPath]: api.reducer,
   },
   middleware: (getDefaultMiddleware) =>

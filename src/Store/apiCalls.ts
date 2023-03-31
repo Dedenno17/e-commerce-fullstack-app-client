@@ -9,6 +9,8 @@ import {
   Blog,
   RelatedProducts,
   Order,
+  Wishlist,
+  WishlistProduct,
 } from '../Types';
 
 // interface
@@ -40,6 +42,20 @@ interface PaymentIntent {
   clientSecret?: string;
 }
 
+interface GetQueryUserWishlist {
+  userId?: string | string[] | undefined;
+  token?: string;
+}
+
+interface UpdateQueryUserWishlist {
+  userId?: string | string[] | undefined;
+  token?: string;
+  payload: {
+    products: WishlistProduct[];
+  };
+}
+
+// create api
 export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_BASE_URL }),
   tagTypes: [
@@ -59,6 +75,10 @@ export const api = createApi({
     'CreateCommentBlog',
     'CreatePaymentIntent',
     'CreateOrder',
+    'CreateWishlist',
+    'GetUserWishlist',
+    'UpdateUserWishlist',
+    'AddUserWishlist',
   ],
   endpoints: (build) => ({
     register: build.mutation<User, Partial<Register>>({
@@ -206,6 +226,49 @@ export const api = createApi({
       }),
       invalidatesTags: ['CreateOrder'],
     }),
+    createWishlistt: build.mutation<Wishlist, Partial<Wishlist>>({
+      query: (payload) => ({
+        url: `/wishlist/create`,
+        method: 'POST',
+        body: payload,
+        headers: {
+          'Content-Type': 'application/json ; charset=UTF-8',
+        },
+      }),
+      invalidatesTags: ['CreateWishlist'],
+    }),
+    getUserWishlist: build.query<Wishlist, GetQueryUserWishlist>({
+      query: (arg) => {
+        const { userId, token } = arg;
+        return {
+          url: `/wishlist/find/${userId}`,
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json ; charset=UTF-8',
+            token: `Bearer ${token}`,
+          },
+        };
+      },
+      providesTags: ['GetUserWishlist'],
+    }),
+    updateUserWishlist: build.mutation<
+      Wishlist,
+      Partial<UpdateQueryUserWishlist>
+    >({
+      query: (arg) => {
+        const { userId, token, payload } = arg;
+        return {
+          url: `/wishlist/update/${userId}`,
+          method: 'PUT',
+          body: payload,
+          headers: {
+            'Content-Type': 'application/json ; charset=UTF-8',
+            token: `Bearer ${token}`,
+          },
+        };
+      },
+      invalidatesTags: ['UpdateUserWishlist'],
+    }),
   }),
 });
 
@@ -227,4 +290,7 @@ export const {
   useGetAllProductQuery,
   useCreatePaymentIntentMutation,
   useCreateOrderMutation,
+  useCreateWishlisttMutation,
+  useLazyGetUserWishlistQuery,
+  useUpdateUserWishlistMutation,
 } = api;

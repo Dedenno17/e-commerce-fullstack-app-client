@@ -4,8 +4,12 @@ import Announcement from '../Header/Announcement';
 import Footer from '../Footer/Footer';
 import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '../../Store/hooks';
-import { useLazyGetUserCartQuery } from '../../Store/apiCalls';
+import {
+  useLazyGetUserCartQuery,
+  useLazyGetUserWishlistQuery,
+} from '../../Store/apiCalls';
 import { createCart } from '../../Store/slices/userCart-slice';
+import { createWishlist } from '../../Store/slices/wishlist-slice';
 
 interface Props {
   children?: ReactNode;
@@ -25,9 +29,14 @@ const Layout: React.FC<Props> = (props) => {
   // function get usercart from server
   const [getUserCart, { data }] = useLazyGetUserCartQuery();
 
+  // function get userWishlist from server
+  const [getUserWishlist, { data: dataWishlist }] =
+    useLazyGetUserWishlistQuery();
+
   useEffect(() => {
     if (userCart.products.length === 0 && user) {
       getUserCart({ userId: user.others._id, token: user.accesToken });
+      getUserWishlist({ userId: user.others._id, token: user.accesToken });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -37,6 +46,12 @@ const Layout: React.FC<Props> = (props) => {
       dispatch(createCart(data));
     }
   }, [data, dispatch]);
+
+  useEffect(() => {
+    if (dataWishlist) {
+      dispatch(createWishlist(dataWishlist));
+    }
+  }, [dataWishlist, dispatch]);
 
   return (
     <div>

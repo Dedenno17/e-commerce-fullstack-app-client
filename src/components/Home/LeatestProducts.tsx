@@ -10,6 +10,7 @@ import LinksLeatestProducts from './SectionProductsLinks';
 interface Props {
   productsData: Product[];
   addToCartHandler: (id: string) => void;
+  addToWishlistHandler: (id: string) => void;
 }
 
 interface Links {
@@ -39,6 +40,7 @@ const links: Links[] = [
 const LatestProducts: React.FC<Props> = ({
   productsData,
   addToCartHandler,
+  addToWishlistHandler,
 }) => {
   const [linkActive, setLinkActive] = useState<string>('newArrival');
 
@@ -120,7 +122,10 @@ const LatestProducts: React.FC<Props> = ({
                   >
                     <BsCart />
                   </span>
-                  <span className="w-6 h-6 flex justify-center items-center rounded-full hover:bg-primarySkyBlue hover:brightness-95 text-xs text-secondaryBlue hover:text-primaryNavyBlue scale-0 opacity-0 transition duration-700 group-hover:scale-100 group-hover:opacity-100 ">
+                  <span
+                    className="w-6 h-6 flex justify-center items-center rounded-full hover:bg-primarySkyBlue hover:brightness-95 text-xs text-secondaryBlue hover:text-primaryNavyBlue scale-0 opacity-0 transition duration-700 group-hover:scale-100 group-hover:opacity-100 "
+                    onClick={() => addToWishlistHandler(item._id)}
+                  >
                     <MdFavoriteBorder />
                   </span>
                   <span className="w-6 h-6 flex justify-center items-center rounded-full hover:bg-primarySkyBlue hover:brightness-95 text-xs text-secondaryBlue hover:text-primaryNavyBlue scale-0 opacity-0 transition duration-700 group-hover:scale-100 group-hover:opacity-100 ">

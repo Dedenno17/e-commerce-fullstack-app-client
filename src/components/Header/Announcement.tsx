@@ -125,9 +125,11 @@ const Announcement: React.FC = () => {
               USD <TfiAngleDown />
             </span>
             {/* WISHLIST MENU */}
-            <span className="gap-1 flex items-center">
-              Wishlist <MdOutlineFavoriteBorder />
-            </span>
+            <Link href="/wishlist">
+              <span className="gap-1 flex items-center">
+                Wishlist <MdOutlineFavoriteBorder />
+              </span>
+            </Link>
             {/* CART MENU */}
             <Link href={`/cart/${user.others._id}`}>
               <span className="relative flex">

@@ -15,6 +15,7 @@ import UniqueFeatures from '../src/components/Home/UniqueFeatures';
 import { shopexOffers } from '../src/data/shopexOffer';
 import { Blog, Product } from '../src/Types';
 import CartModal from '../src/components/UI/CartModal';
+import WishlistModal from '../src/components/UI/WishlistModal';
 
 // interface Home props
 interface HomeProps {
@@ -69,6 +70,9 @@ export const getStaticProps: GetStaticProps<HomeProps> = async (): Promise<
 const Home: NextPage<HomeProps> = ({ productsData, blogsData }) => {
   const [cartProductId, setCartProductId] = useState<string>('');
   const [isShowCartModal, setIsShowCartModal] = useState<boolean>(false);
+  const [wishlistProductId, setWishlistProductId] = useState<string>('');
+  const [isShowWishlistModal, setIsShowWishlistModal] =
+    useState<boolean>(false);
 
   // add to cart function
   const addToCartHandler = (id: string) => {
@@ -78,6 +82,16 @@ const Home: NextPage<HomeProps> = ({ productsData, blogsData }) => {
 
   const closeCartModalHandler = () => {
     setIsShowCartModal(false);
+  };
+
+  // add to wishlist function
+  const addToWishlistHandler = (id: string) => {
+    setWishlistProductId(id);
+    setIsShowWishlistModal(true);
+  };
+
+  const closeWishlistModalHandler = () => {
+    setIsShowWishlistModal(false);
   };
 
   return (
@@ -95,10 +109,12 @@ const Home: NextPage<HomeProps> = ({ productsData, blogsData }) => {
           <FeaturedProducts
             productsData={productsData}
             addToCartHandler={addToCartHandler}
+            addToWishlistHandler={addToWishlistHandler}
           />
           <LeatestProducts
             productsData={productsData}
             addToCartHandler={addToCartHandler}
+            addToWishlistHandler={addToWishlistHandler}
           />
           <ShopexOffer shopexOfferData={shopexOffers} />
         </section>
@@ -119,6 +135,14 @@ const Home: NextPage<HomeProps> = ({ productsData, blogsData }) => {
           isShowCartModal={isShowCartModal}
           id={cartProductId}
           onClose={closeCartModalHandler}
+        />
+      )}
+
+      {isShowWishlistModal && (
+        <WishlistModal
+          isShowWishlistModal={isShowWishlistModal}
+          id={wishlistProductId}
+          onClose={closeWishlistModalHandler}
         />
       )}
     </>

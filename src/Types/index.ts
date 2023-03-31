@@ -154,3 +154,22 @@ export interface Order {
   status: string;
   totalPrice: number;
 }
+
+// type of wishlist product
+export interface WishlistProduct {
+  title: string;
+  color: string;
+  price: number;
+  image: string;
+  quantity: number;
+  _id: string;
+}
+
+// type of wishlist
+export interface Wishlist {
+  _id?: string;
+  userId: string;
+  products: WishlistProduct[];
+  createdAt?: string;
+  updatedAt?: string;
+}

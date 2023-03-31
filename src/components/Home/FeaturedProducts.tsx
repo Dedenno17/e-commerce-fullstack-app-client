@@ -15,11 +15,13 @@ import Link from 'next/link';
 interface Props {
   productsData: Product[];
   addToCartHandler: (id: string) => void;
+  addToWishlistHandler: (id: string) => void;
 }
 
 const FeaturedProducts: React.FC<Props> = ({
   productsData,
   addToCartHandler,
+  addToWishlistHandler,
 }) => {
   // page active
   const [pageActive, setPageActive] = useState<number>(0);
@@ -75,7 +77,10 @@ const FeaturedProducts: React.FC<Props> = ({
                     >
                       <BsCart />
                     </span>
-                    <span className="w-6 h-6 flex justify-center items-center rounded-full hover:bg-primarySkyBlue hover:brightness-95 text-xs text-secondaryBlue hover:text-primaryNavyBlue scale-0 opacity-0 transition duration-700 group-hover:scale-100 group-hover:opacity-100 ">
+                    <span
+                      className="w-6 h-6 flex justify-center items-center rounded-full hover:bg-primarySkyBlue hover:brightness-95 text-xs text-secondaryBlue hover:text-primaryNavyBlue scale-0 opacity-0 transition duration-700 group-hover:scale-100 group-hover:opacity-100 "
+                      onClick={() => addToWishlistHandler(item._id)}
+                    >
                       <MdFavoriteBorder />
                     </span>
                     <Link href={`/product/${item._id}`}>
